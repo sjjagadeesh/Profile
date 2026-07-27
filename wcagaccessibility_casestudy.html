@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<title>WCAG 2.2 Accessibility Governance — Case Study</title>
+<link rel="stylesheet" href="nav.css">
+<script src="nav.js" defer></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --ink:#0B0E23;
+    --ink-2:#141936;
+    --paper:#F7F7FB;
+    --paper-2:#FFFFFF;
+    --violet:#6C4FF6;
+    --violet-soft:#EDE9FE;
+    --magenta:#E23FA0;
+    --legacy:#B0864C;
+    --legacy-soft:#F4ECDD;
+    --teal:#1E9E86;
+    --teal-soft:#E3F5F1;
+    --amber:#B8862E;
+    --amber-soft:#FBF1DE;
+    --red:#C24C40;
+    --text-soft:#6B7090;
+    --text-on-ink:#C7CAE8;
+    --line:#E4E3F0;
+    --teal-line:#BFE6DC;
+  }
+  /* ---------- DARK THEME (toggled via [data-theme="dark"] on <html>) ----------
+     .hero, .compliance-card, and .stats-section stay a fixed dark navy in both
+     themes (already pinned to literal hex below), same pattern the portfolio's
+     .cover bands use. */
+  :root[data-theme="dark"]{
+    --ink:#EDEFF7;
+    --ink-2:#141936;
+    --paper:#0B0E23;
+    --paper-2:#141936;
+    --violet-soft:#241F52;
+    --amber-soft:#332813;
+    --teal-soft:#0F2E29;
+    --text-soft:#9BA0C0;
+    --line:#262C48;
+    --teal-line:#1C4A40;
+  }
+  :root[data-theme="dark"] body{ transition:background-color .25s ease, color .25s ease; }
+  :root[data-theme="dark"] .tldr, :root[data-theme="dark"] .cause-card, :root[data-theme="dark"] .principle-card,
+  :root[data-theme="dark"] .profile-card, :root[data-theme="dark"] .approach-item, :root[data-theme="dark"] .callout{
+    transition:background-color .25s ease, border-color .25s ease;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(120% 140% at 15% 0%, #1B1440 0%, #0B0E23 55%, #08091C 100%);
+    color:#fff;
+    padding:88px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-160px; top:-160px;
+    width:480px; height:480px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(226,63,160,0.35), transparent 70%);
+    filter:blur(10px);
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-on-ink);
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:6px 14px;
+    border-radius:999px;
+    position:relative;
+    z-index:1;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);}
+  .hero h1{
+    font-size:42px;
+    font-weight:700;
+    max-width:780px;
+    margin:22px 0 18px;
+    position:relative; z-index:1;
+  }
+  .hero h1 span{color:var(--text-on-ink); font-weight:500;}
+  .hero p.dek{
+    font-size:18px;
+    max-width:620px;
+    color:var(--text-on-ink);
+    position:relative; z-index:1;
+  }
+  .hero-meta{
+    display:flex; gap:28px; margin-top:32px; flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .hero-meta div{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-on-ink);}
+  .hero-meta b{display:block; color:#fff; font-family:'Inter',sans-serif; font-size:14px; font-weight:600;}
+
+  /* ---------- TLDR ---------- */
+  .tldr{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 32px;
+    margin:-40px 0 56px;
+    position:relative; z-index:2;
+    box-shadow:0 20px 40px -24px rgba(20,25,54,0.25);
+  }
+  .tldr-head{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:16px; font-weight:600;
+  }
+  .tldr-head .bar{width:20px;height:2px;background:var(--violet);}
+  .tldr-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .tldr-item .k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:var(--text-soft); text-transform:uppercase; letter-spacing:0.04em;
+    margin-bottom:6px;
+  }
+  .tldr-item .v{font-size:15px; font-weight:600; line-height:1.4;}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:64px 0;}
+  .section-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:10px; font-weight:600;
+  }
+  .section-title{font-size:28px; font-weight:700; max-width:640px; margin-bottom:14px;}
+  .section-desc{color:var(--text-soft); max-width:600px; font-size:15.5px;}
+
+  /* ---------- CAUSES ---------- */
+  .causes{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
+  .cause-card{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:14px;
+    padding:20px 18px;
+  }
+  .cause-card .num{font-family:'IBM Plex Mono',monospace; color:var(--magenta); font-size:13px; font-weight:600; margin-bottom:10px;}
+  .cause-card p{margin:0; font-size:14px; color:var(--ink); font-weight:500;}
+
+  /* ---------- PRINCIPLES (POUR) ---------- */
+  .principles{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
+  .principle-card{background:var(--paper-2); border:1px solid var(--line); border-radius:14px; padding:22px 20px;}
+  .principle-icon{width:40px; height:40px; border-radius:10px; background:var(--violet-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+  .principle-icon svg{width:20px; height:20px;}
+  .principle-card h3{font-size:16.5px; font-weight:700; margin-bottom:8px;}
+  .principle-card p{margin:0 0 12px; font-size:13.5px; color:var(--text-soft); line-height:1.5;}
+  .principle-card .tag3{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--text-soft); margin-bottom:6px;}
+  .principle-card ul{margin:0; padding-left:16px; font-size:13px; color:var(--ink);}
+  .principle-card li{margin-bottom:4px;}
+
+  /* ---------- COMPLIANCE TABLE ---------- */
+  .compliance-card{
+    background:#0B0E23;
+    border-radius:20px;
+    padding:32px;
+    margin-top:32px;
+    color:#fff;
+  }
+  .compliance-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px; flex-wrap:wrap; gap:12px;}
+  .compliance-head h3{font-size:19px; font-weight:700; color:#fff; margin-bottom:4px;}
+  .compliance-head p{margin:0; font-size:13px; color:var(--text-on-ink);}
+  .audited-badge{font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16); padding:6px 12px; border-radius:999px; color:var(--text-on-ink); white-space:nowrap;}
+  table.compliance{width:100%; border-collapse:collapse; font-size:13.5px;}
+  table.compliance th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.04em;
+    text-transform:uppercase; color:var(--text-on-ink); padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.14); font-weight:600;
+  }
+  table.compliance td{padding:14px 8px; border-bottom:1px solid rgba(255,255,255,0.08); color:#fff;}
+  table.compliance tr.total td{font-weight:700; border-top:1px solid rgba(255,255,255,0.2); border-bottom:none;}
+  .score-pill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12.5px; padding:4px 12px; border-radius:999px; background:rgba(255,255,255,0.1);}
+  .score-pill.good{background:var(--teal); color:#062B23;}
+  .level-star{color:#F0B84B; margin-right:4px;}
+
+  /* ---------- APPROACH ---------- */
+  .approach-list{margin-top:28px; display:flex; flex-direction:column; gap:0;}
+  .approach-item{display:grid; grid-template-columns:120px 1fr; gap:24px; padding:22px 0; border-top:1px solid var(--line);}
+  .approach-item:last-child{border-bottom:1px solid var(--line);}
+  .approach-item .phase{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--violet); font-weight:600; text-transform:uppercase;}
+  .approach-item h3{font-size:16.5px; font-weight:700; margin-bottom:6px;}
+  .approach-item p{margin:0; color:var(--text-soft); font-size:14.5px; max-width:560px;}
+
+  /* ---------- PROFILES ---------- */
+  .profiles{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px;}
+  .profile-card{background:var(--paper-2); border:1px solid var(--line); border-radius:14px; padding:20px;}
+  .profile-icon{width:40px; height:40px; border-radius:10px; background:var(--violet-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+  .profile-icon svg{width:20px; height:20px;}
+  .profile-card h4{font-size:14.5px; font-weight:700; margin:0 0 10px;}
+  .profile-card ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px;}
+  .profile-card li{font-size:12.5px; color:var(--text-soft); display:flex; align-items:center; gap:7px;}
+  .profile-card li::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--violet); flex-shrink:0;}
+
+  /* ---------- STATS ---------- */
+  .stats-section{
+    background:#0B0E23;
+    color:#fff;
+    border-radius:24px;
+    padding:48px 40px;
+    margin:64px 0;
+  }
+  .stats-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:left;}
+  .stat .num{font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; color:#fff;}
+  .stat .lbl{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-on-ink); text-transform:uppercase; letter-spacing:0.04em; margin-top:6px;}
+
+  .callout{background:var(--teal-soft); border:1px solid var(--teal-line); border-radius:16px; padding:24px 28px; margin-top:32px; display:flex; gap:20px; align-items:flex-start;}
+  .callout .tag2{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; color:var(--teal); background:#fff; border-radius:8px; padding:4px 10px; flex-shrink:0; margin-top:2px;}
+  .callout p{margin:0; font-size:14.5px; color:var(--ink);}
+
+  footer{padding:40px 0 60px; border-top:1px solid var(--line); margin-top:20px;}
+  footer p{color:var(--text-soft); font-size:13px; text-align:center;}
+
+  @media (max-width:820px){
+    .tldr-grid{grid-template-columns:repeat(2,1fr);}
+    .causes{grid-template-columns:repeat(2,1fr);}
+    .principles{grid-template-columns:repeat(2,1fr);}
+    .profiles{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:1fr; row-gap:28px;}
+    .approach-item{grid-template-columns:1fr; gap:6px;}
+    .hero h1{font-size:30px;}
+    table.compliance{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dot"></span>Accessibility Governance — Design Systems</span>
+      <h1>WCAG 2.2: accessibility as a governed<br><span>discipline, not a checklist.</span></h1>
+      <p class="dek">Stood up accessibility as a governed discipline: audits, standards, and enablement built directly into the design system and delivery process — not a one-time compliance sweep.</p>
+      <div class="hero-meta">
+        <div><b>Role</b>Design System Lead</div>
+        <div><b>Standard</b>WCAG 2.2</div>
+        <div><b>Scope</b>86 criteria audited</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="tldr">
+      <div class="tldr-head"><span class="bar"></span>2-minute read</div>
+      <div class="tldr-grid">
+        <div class="tldr-item">
+          <div class="k">Problem</div>
+          <div class="v">Accessibility was fixed screen by screen, with no shared standard or way to verify coverage.</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Approach</div>
+          <div class="v">Treated accessibility as a governed program: audit every criterion, build standards into the system itself.</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Execution</div>
+          <div class="v">Full WCAG 2.2 audit across all three conformance levels, plus an accessibility plugin teams could use directly.</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Result</div>
+          <div class="v">87% overall compliance across 86 criteria, with Level AA — the practical bar — at 95%.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:0;">
+      <div class="section-tag">The Problem</div>
+      <h2 class="section-title">Compliant somewhere isn't the same as compliant everywhere</h2>
+      <p class="section-desc">WCAG 2.2 spans 86 success criteria across three conformance levels. Without a system behind it, "accessible" becomes a claim nobody can actually verify.</p>
+      <div class="causes">
+        <div class="cause-card"><div class="num">01</div><p>Fixes were made screen by screen, with no shared standard to check against</p></div>
+        <div class="cause-card"><div class="num">02</div><p>Teams could tell if a component looked fine, not whether it was actually compliant</p></div>
+        <div class="cause-card"><div class="num">03</div><p>86 criteria across three conformance levels is too much to track without a system</p></div>
+        <div class="cause-card"><div class="num">04</div><p>Accessibility was a QA pass at the end, not a decision made upfront</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">The Framework</div>
+      <h2 class="section-title">Key principles of accessibility</h2>
+      <p class="section-desc">Every audit and every component decision was checked against the same four principles WCAG is built on.</p>
+      <div class="principles">
+        <div class="principle-card">
+          <div class="principle-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="2" stroke="#6C4FF6" stroke-width="1.8"/><path d="M9 21h6M12 17v4" stroke="#6C4FF6" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="10.5" r="3" stroke="#6C4FF6" stroke-width="1.6"/></svg></div>
+          <h3>Perceivable</h3>
+          <p>Content must be presentable in ways users can perceive.</p>
+          <div class="tag3">Key actions</div>
+          <ul>
+            <li>Alt text on all images and icons</li>
+            <li>4.5:1 minimum color contrast</li>
+            <li>Captions for multimedia</li>
+          </ul>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="2" stroke="#6C4FF6" stroke-width="1.8"/><path d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M6 13.5h.01M9.5 13.5h.01M13 13.5h.01M16.5 13.5h.01M8 16.5h8" stroke="#6C4FF6" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Operable</h3>
+          <p>All UI components must be fully navigable by any input.</p>
+          <div class="tag3">Key actions</div>
+          <ul>
+            <li>Complete keyboard navigation</li>
+            <li>No seizure-triggering animation</li>
+            <li>Clear, visible focus states</li>
+          </ul>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#6C4FF6" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 12l2.2 2.2L15.5 9" stroke="#6C4FF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Understandable</h3>
+          <p>Information and UI behavior must be clear and predictable.</p>
+          <div class="tag3">Key actions</div>
+          <ul>
+            <li>Plain, jargon-free language</li>
+            <li>Descriptive error messages</li>
+            <li>Consistent navigation patterns</li>
+          </ul>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="#6C4FF6" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.5 9.5" stroke="#6C4FF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Robust</h3>
+          <p>Content must work reliably across tools and technologies.</p>
+          <div class="tag3">Key actions</div>
+          <ul>
+            <li>Semantic HTML with ARIA roles</li>
+            <li>Screen reader compatibility</li>
+            <li>WCAG 2.2 conformance throughout</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">The Audit</div>
+      <h2 class="section-title">Where the system actually stands</h2>
+      <p class="section-desc">Every one of WCAG 2.2's 86 success criteria assessed against the system — not spot-checked, not sampled.</p>
+      <div class="compliance-card">
+        <div class="compliance-head">
+          <div>
+            <h3>Accessibility Compliance by Level</h3>
+            <p>WCAG 2.2 audit results across conformance levels</p>
+          </div>
+          <span class="audited-badge">86 criteria audited</span>
+        </div>
+        <table class="compliance">
+          <thead>
+            <tr><th>Level</th><th>Pass</th><th>Partial</th><th>Yet to Do</th><th>N/A</th><th>Total</th><th>Score</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Level A</td><td>23</td><td>5</td><td>0</td><td>3</td><td>31</td><td><span class="score-pill">82%</span></td></tr>
+            <tr><td><span class="level-star">★</span>Level AA</td><td>20</td><td>1</td><td>0</td><td>3</td><td>24</td><td><span class="score-pill good">95%</span></td></tr>
+            <tr><td>Level AAA</td><td>17</td><td>1</td><td>2</td><td>11</td><td>31</td><td><span class="score-pill">85%</span></td></tr>
+            <tr class="total"><td>Total / Overall</td><td>60</td><td>7</td><td>2</td><td>17</td><td>86</td><td><span class="score-pill">87%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">86</div><div class="lbl">Criteria audited</div></div>
+        <div class="stat"><div class="num">87%</div><div class="lbl">Overall compliance</div></div>
+        <div class="stat"><div class="num">95%</div><div class="lbl">Level AA — the practical bar</div></div>
+      </div>
+    </div>
+
+    <section style="padding-top:0;">
+      <div class="section-tag">The Approach</div>
+      <h2 class="section-title">Audit it, build it in, then keep it honest</h2>
+      <div class="approach-list">
+        <div class="approach-item">
+          <div class="phase">Audit</div>
+          <div>
+            <h3>Assessed every criterion, not a sample</h3>
+            <p>All 86 WCAG 2.2 success criteria across Level A, AA, and AAA were scored — pass, partial, yet to do, or not applicable — so the actual state of the system was known, not assumed.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Standardize</div>
+          <div>
+            <h3>Built compliance into the components themselves</h3>
+            <p>Contrast, semantics, and keyboard navigation were fixed at the component level in Floret, so teams inherited compliance by default instead of re-solving it screen by screen.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Enable</div>
+          <div>
+            <h3>Gave teams a way to see it, not just read about it</h3>
+            <p>An accessibility plugin let people preview and adjust for real conditions — contrast, motion, cursor, reading aids — across profiles like low vision, cognitive, and motor-impaired use.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Govern</div>
+          <div>
+            <h3>Treated Level AA as the bar, not the finish line</h3>
+            <p>Level AA is the practical standard behind most legal and product requirements. Keeping the audit current, rather than running it once, made compliance a visible, ongoing state.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="tag2">Key insight</span>
+        <p>The real unlock wasn't fixing more screens. It was making the default state accessible, so teams no longer had to remember to check.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">In Practice</div>
+      <h2 class="section-title">Significant accessibility profiles</h2>
+      <p class="section-desc">Six curated profiles combine the settings that matter most for each kind of need, so the experience adapts without asking anyone to configure it themselves.</p>
+      <div class="profiles">
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" stroke="#6C4FF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="#6C4FF6" stroke-width="1.8"/></svg></div>
+          <h4>Low Vision</h4>
+          <ul><li>High Contrast</li><li>High Saturate</li><li>Invert</li></ul>
+        </div>
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9.5 4a3 3 0 00-3 3v.2A2.8 2.8 0 004 9.8v1.4a2.8 2.8 0 00-1 2.15A2.8 2.8 0 005 16v.2a3 3 0 003 3h.5M14.5 4a3 3 0 013 3v.2a2.8 2.8 0 012.5 2.6v1.4a2.8 2.8 0 011 2.15A2.8 2.8 0 0119 16v.2a3 3 0 01-3 3h-.5M9.5 4v15.2M14.5 4v15.2" stroke="#6C4FF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>Cognitive</h4>
+          <ul><li>Readable Font</li><li>Reading Guide</li><li>Line Space</li></ul>
+        </div>
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 11V6.5a2 2 0 014 0V10M11 10V5a2 2 0 014 0v5M15 10.5V7a2 2 0 014 0v7c0 3.5-2.5 6-6 6h-2c-2 0-3-.5-4.5-2.5L4 13.5c-.6-.8-.4-1.7.3-2.2.7-.5 1.6-.4 2.2.3L8 13.5" stroke="#6C4FF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>Motor Impaired</h4>
+          <ul><li>White Cursor</li><li>Black Cursor</li><li>Reading Mask</li></ul>
+        </div>
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 5h11M11.5 5v14M8 19h7" stroke="#6C4FF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>Dyslexia Friendly</h4>
+          <ul><li>Dyslexia Font</li><li>Word Space</li><li>Line Space</li></ul>
+        </div>
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 000 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-.9.7-1.5 1.5-1.5H16a4 4 0 004-4c0-4.4-3.6-8-8-8z" stroke="#6C4FF6" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="11" r="1.1" fill="#6C4FF6"/><circle cx="10.5" cy="7.5" r="1.1" fill="#6C4FF6"/><circle cx="15" cy="7.5" r="1.1" fill="#6C4FF6"/><circle cx="17" cy="11.5" r="1.1" fill="#6C4FF6"/></svg></div>
+          <h4>Color Blind</h4>
+          <ul><li>Mono</li><li>High Contrast</li><li>Low Saturate</li></ul>
+        </div>
+        <div class="profile-card">
+          <div class="profile-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#6C4FF6" stroke-width="1.6"/><circle cx="12" cy="12" r="5" stroke="#6C4FF6" stroke-width="1.6"/><circle cx="12" cy="12" r="1.3" fill="#6C4FF6"/></svg></div>
+          <h4>ADHD</h4>
+          <ul><li>Reading Mask</li><li>Reading Guide</li><li>Low Contrast</li></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Illustrative representations and screens generalized for public presentation due to NDA.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<title>Unifying a Fragmented Product Portfolio — Design System Transformation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --ink:#0B0E23;
+    --ink-2:#141936;
+    --paper:#F7F7FB;
+    --paper-2:#FFFFFF;
+    --violet:#6C4FF6;
+    --violet-soft:#EDE9FE;
+    --magenta:#E23FA0;
+    --legacy:#B0864C;
+    --legacy-soft:#F4ECDD;
+    --text-soft:#6B7090;
+    --text-on-ink:#C7CAE8;
+    --line:#E4E3F0;
+  }
+  /* ---------- DARK THEME (toggled via [data-theme="dark"] on <html>) ----------
+     .hero and .stats-section stay a fixed dark navy in both themes (already
+     pinned to literal hex above), same pattern the portfolio's .cover bands use. */
+  :root[data-theme="dark"]{
+    --ink:#EDEFF7;
+    --ink-2:#141936;
+    --paper:#0B0E23;
+    --paper-2:#141936;
+    --violet-soft:#241F52;
+    --legacy-soft:#332813;
+    --text-soft:#9BA0C0;
+    --line:#262C48;
+  }
+  :root[data-theme="dark"] body{ transition:background-color .25s ease, color .25s ease; }
+  :root[data-theme="dark"] .tldr, :root[data-theme="dark"] .cause-card, :root[data-theme="dark"] .panel,
+  :root[data-theme="dark"] .approach-item{ transition:background-color .25s ease, border-color .25s ease; }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(120% 140% at 15% 0%, #1B1440 0%, #0B0E23 55%, #08091C 100%);
+    color:#fff;
+    padding:88px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-160px; top:-160px;
+    width:480px; height:480px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(226,63,160,0.35), transparent 70%);
+    filter:blur(10px);
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-on-ink);
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:6px 14px;
+    border-radius:999px;
+    position:relative;
+    z-index:1;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);}
+  .hero h1{
+    font-size:44px;
+    font-weight:700;
+    max-width:780px;
+    margin:22px 0 18px;
+    position:relative; z-index:1;
+  }
+  .hero h1 span{color:var(--text-on-ink); font-weight:500;}
+  .hero p.dek{
+    font-size:18px;
+    max-width:620px;
+    color:var(--text-on-ink);
+    position:relative; z-index:1;
+  }
+  .hero-meta{
+    display:flex; gap:28px; margin-top:32px;
+    position:relative; z-index:1;
+  }
+  .hero-meta div{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-on-ink);}
+  .hero-meta b{display:block; color:#fff; font-family:'Inter',sans-serif; font-size:14px; font-weight:600;}
+
+  /* ---------- TLDR ---------- */
+  .tldr{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 32px;
+    margin:-40px 0 56px;
+    position:relative; z-index:2;
+    box-shadow:0 20px 40px -24px rgba(20,25,54,0.25);
+  }
+  .tldr-head{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:16px; font-weight:600;
+  }
+  .tldr-head .bar{width:20px;height:2px;background:var(--violet);}
+  .tldr-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .tldr-item .k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:var(--text-soft); text-transform:uppercase; letter-spacing:0.04em;
+    margin-bottom:6px;
+  }
+  .tldr-item .v{font-size:15px; font-weight:600; line-height:1.4;}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:64px 0;}
+  .section-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:10px; font-weight:600;
+  }
+  .section-title{font-size:28px; font-weight:700; max-width:640px; margin-bottom:14px;}
+  .section-desc{color:var(--text-soft); max-width:600px; font-size:15.5px;}
+
+  /* ---------- CAUSES ---------- */
+  .causes{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
+  .cause-card{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:14px;
+    padding:20px 18px;
+  }
+  .cause-card .num{font-family:'IBM Plex Mono',monospace; color:var(--magenta); font-size:13px; font-weight:600; margin-bottom:10px;}
+  .cause-card p{margin:0; font-size:14px; color:var(--ink); font-weight:500;}
+
+  /* ---------- COMPARISON ---------- */
+  .compare-block{margin-top:40px;}
+  .compare-label{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:19px; font-weight:600; margin-bottom:18px;
+  }
+  .compare-row{
+    display:grid;
+    grid-template-columns:1fr 56px 1fr;
+    align-items:stretch;
+    gap:0;
+  }
+  .panel{
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .panel-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:10px 16px; font-weight:600;
+  }
+  .panel.legacy .panel-tag{background:var(--legacy-soft); color:var(--legacy);}
+  .panel.modern .panel-tag{background:var(--violet-soft); color:var(--violet);}
+  .switch-col{display:flex; align-items:center; justify-content:center;}
+  .switch-arrow{width:44px; height:44px; border-radius:50%; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px -4px rgba(20,25,54,0.25);}
+
+  /* mock screen internals */
+  .mock{padding:16px; height:230px; display:flex; flex-direction:column; gap:10px;}
+  .mock-topbar{display:flex; align-items:center; gap:8px;}
+  .mock-topbar .chip{width:8px;height:8px;border-radius:50%;}
+  .legacy .mock-topbar .chip{background:#D8C9A5;}
+  .modern .mock-topbar .chip{background:var(--violet);}
+  .mock-topbar .line{height:6px; border-radius:3px; flex:1;}
+  .legacy .mock-topbar .line{background:#EDE3CC; max-width:120px;}
+  .modern .mock-topbar .line{background:var(--violet-soft); max-width:100px;}
+
+  .mock-body{flex:1; display:grid; gap:8px;}
+  .legacy .mock-body{grid-template-columns:70px 1fr; }
+  .modern .mock-body{grid-template-columns:1fr;}
+
+  .legacy .nav{background:#EFEAD9; border-radius:6px; padding:8px 6px; display:flex; flex-direction:column; gap:6px;}
+  .legacy .nav span{height:5px; border-radius:2px; background:#D8C9A5;}
+  .legacy .nav span:nth-child(1){width:80%;}
+  .legacy .nav span:nth-child(2){width:60%;}
+  .legacy .nav span:nth-child(3){width:70%;}
+  .legacy .nav span:nth-child(4){width:50%;}
+
+  .legacy .grid-dense{display:grid; grid-template-columns:repeat(3,1fr); gap:5px; align-content:start;}
+  .legacy .cell{
+    background:#FBF7EE; border:1px solid #E7DCC2; border-radius:3px; height:26px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .legacy .cell span{width:60%; height:5px; background:#DCCEA9; border-radius:2px;}
+  .legacy .cell.b{background:#F3E3CB;}
+  .legacy .btnrow{display:flex; gap:5px; margin-top:2px;}
+  .legacy .btnrow div{height:16px; border-radius:3px; flex:1;}
+  .legacy .btnrow div:nth-child(1){background:#C7A96A;}
+  .legacy .btnrow div:nth-child(2){background:#DCCFB0;}
+  .legacy .btnrow div:nth-child(3){background:#EFE7D3; border:1px solid #DCCFB0;}
+
+  .modern .cardgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .modern .card{
+    background:var(--paper); border-radius:10px; padding:10px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .modern .card .dot{width:16px;height:16px;border-radius:6px; background:var(--violet-soft);}
+  .modern .card .l1{height:6px; width:70%; border-radius:3px; background:#DCD4FB;}
+  .modern .card .l2{height:6px; width:45%; border-radius:3px; background:#E9E5FC;}
+  .modern .statusbar{display:flex; gap:6px; margin-top:2px;}
+  .modern .statusbar div{height:14px; flex:1; border-radius:5px;}
+  .modern .statusbar div:nth-child(1){background:var(--violet);}
+  .modern .statusbar div:nth-child(2){background:#20C7A7;}
+  .modern .statusbar div:nth-child(3){background:var(--paper); border:1px solid var(--line);}
+
+  /* ---------- STATS ---------- */
+  .stats-section{
+    background:#0B0E23;
+    color:#fff;
+    border-radius:24px;
+    padding:48px 40px;
+    margin:64px 0;
+  }
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:left;}
+  .stat .num{font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; color:#fff;}
+  .stat .lbl{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-on-ink); text-transform:uppercase; letter-spacing:0.04em; margin-top:6px;}
+
+  /* ---------- APPROACH ---------- */
+  .approach-list{margin-top:28px; display:flex; flex-direction:column; gap:0;}
+  .approach-item{
+    display:grid; grid-template-columns:120px 1fr; gap:24px;
+    padding:22px 0; border-top:1px solid var(--line);
+  }
+  .approach-item:last-child{border-bottom:1px solid var(--line);}
+  .approach-item .phase{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--violet); font-weight:600; text-transform:uppercase;}
+  .approach-item h3{font-size:16.5px; font-weight:700; margin-bottom:6px;}
+  .approach-item p{margin:0; color:var(--text-soft); font-size:14.5px; max-width:560px;}
+
+  footer{padding:40px 0 60px; border-top:1px solid var(--line); margin-top:20px;}
+  footer p{color:var(--text-soft); font-size:13px; text-align:center;}
+
+  @media (max-width:820px){
+    .tldr-grid{grid-template-columns:repeat(2,1fr);}
+    .causes{grid-template-columns:repeat(2,1fr);}
+    .compare-row{grid-template-columns:1fr; gap:12px;}
+    .switch-col{transform:rotate(90deg); padding:4px 0;}
+    .stats-grid{grid-template-columns:repeat(2,1fr); row-gap:28px;}
+    .approach-item{grid-template-columns:1fr; gap:6px;}
+    .hero h1{font-size:32px;}
+  }
+</style>
+<link rel="stylesheet" href="nav.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dot"></span>Enterprise Design System Transformation</span>
+      <h1>Unifying a fragmented product portfolio<br><span>into one consistent experience.</span></h1>
+      <p class="dek">How a 20+ product enterprise portfolio — spanning different tech stacks, acquired platforms, and regional teams — was brought under a single design language, without slowing product delivery down.</p>
+      <div class="hero-meta">
+        <div><b>Role</b>Design System Lead</div>
+        <div><b>Scope</b>20+ enterprise products</div>
+        <div><b>Timeframe</b>Modernization wave, 2023–24</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="tldr">
+      <div class="tldr-head"><span class="bar"></span>2-minute read</div>
+      <div class="tldr-grid">
+        <div class="tldr-item">
+          <div class="k">Problem</div>
+          <div class="v">Customers said every product "felt like a different company."</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Approach</div>
+          <div class="v">Built a shared design system — 65+ components, 264+ design tokens — not a one-off reskin.</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Execution</div>
+          <div class="v">Audited legacy UI across 20+ products, then modernized 5,000+ screens against the new standard.</div>
+        </div>
+        <div class="tldr-item">
+          <div class="k">Result</div>
+          <div class="v">20+ products unified, 5,000+ screens modernized, faster delivery on everything after.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:0;">
+      <div class="section-tag">The Problem</div>
+      <h2 class="section-title">Fragmentation had four different root causes</h2>
+      <p class="section-desc">Not a single bad decision — a portfolio that had grown in four directions at once, with no shared foundation pulling it back together.</p>
+      <div class="causes">
+        <div class="cause-card"><div class="num">01</div><p>Different tech stacks across product teams, each rendering UI its own way</p></div>
+        <div class="cause-card"><div class="num">02</div><p>Acquired platforms carrying 20–25 years of legacy design debt</p></div>
+        <div class="cause-card"><div class="num">03</div><p>Teams distributed across regions, each with informal, undocumented standards</p></div>
+        <div class="cause-card"><div class="num">04</div><p>No shared source of truth for interaction, accessibility, or visual patterns</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Before / After</div>
+      <h2 class="section-title">Same tasks, rebuilt on a shared foundation</h2>
+      <p class="section-desc">Illustrative representations of the transformation pattern applied across product types — dense, inconsistent legacy screens rebuilt as clean, unified interfaces on the new system.</p>
+
+      <div class="compare-block">
+        <div class="compare-label">Operations dashboard</div>
+        <div class="compare-row">
+          <div class="panel legacy">
+            <div class="panel-tag">Legacy</div>
+            <div class="mock">
+              <div class="mock-topbar"><span class="chip"></span><span class="line"></span></div>
+              <div class="mock-body">
+                <div class="nav"><span></span><span></span><span></span><span></span></div>
+                <div class="grid-dense">
+                  <div class="cell"><span></span></div><div class="cell b"><span></span></div><div class="cell"><span></span></div>
+                  <div class="cell b"><span></span></div><div class="cell"><span></span></div><div class="cell"><span></span></div>
+                  <div class="cell"><span></span></div><div class="cell"><span></span></div><div class="cell b"><span></span></div>
+                </div>
+              </div>
+              <div class="btnrow"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+          <div class="switch-col"><div class="switch-arrow"><svg width="24" height="24" viewBox="0 0 32 24" fill="none">
+              <defs><linearGradient id="arrowGrad1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#B0864C"/>
+                <stop offset="100%" stop-color="#6C4FF6"/>
+              </linearGradient></defs>
+              <line x1="2" y1="12" x2="22" y2="12" stroke="url(#arrowGrad1)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M16 4 L26 12 L16 20" fill="none" stroke="url(#arrowGrad1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></div></div>
+          <div class="panel modern">
+            <div class="panel-tag">Modernized</div>
+            <div class="mock">
+              <div class="mock-topbar"><span class="chip"></span><span class="line"></span></div>
+              <div class="mock-body">
+                <div class="cardgrid">
+                  <div class="card"><div class="dot"></div><div class="l1"></div><div class="l2"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div><div class="l2"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div><div class="l2"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div><div class="l2"></div></div>
+                </div>
+              </div>
+              <div class="statusbar"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-block">
+        <div class="compare-label">Floor &amp; table management</div>
+        <div class="compare-row">
+          <div class="panel legacy">
+            <div class="panel-tag">Legacy</div>
+            <div class="mock">
+              <div class="mock-topbar"><span class="chip"></span><span class="line" style="max-width:90px;"></span></div>
+              <div class="mock-body" style="grid-template-columns:1fr;">
+                <div class="grid-dense" style="grid-template-columns:repeat(4,1fr);">
+                  <div class="cell"><span></span></div><div class="cell"><span></span></div><div class="cell b"><span></span></div><div class="cell"><span></span></div>
+                  <div class="cell b"><span></span></div><div class="cell"><span></span></div><div class="cell"><span></span></div><div class="cell b"><span></span></div>
+                  <div class="cell"><span></span></div><div class="cell b"><span></span></div><div class="cell"><span></span></div><div class="cell"><span></span></div>
+                  <div class="cell b"><span></span></div><div class="cell"><span></span></div><div class="cell b"><span></span></div><div class="cell"><span></span></div>
+                </div>
+              </div>
+              <div class="btnrow"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+          <div class="switch-col"><div class="switch-arrow"><svg width="24" height="24" viewBox="0 0 32 24" fill="none">
+              <defs><linearGradient id="arrowGrad2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#B0864C"/>
+                <stop offset="100%" stop-color="#6C4FF6"/>
+              </linearGradient></defs>
+              <line x1="2" y1="12" x2="22" y2="12" stroke="url(#arrowGrad2)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M16 4 L26 12 L16 20" fill="none" stroke="url(#arrowGrad2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></div></div>
+          <div class="panel modern">
+            <div class="panel-tag">Modernized</div>
+            <div class="mock">
+              <div class="mock-topbar"><span class="chip"></span><span class="line" style="max-width:80px;"></span></div>
+              <div class="mock-body">
+                <div class="cardgrid" style="grid-template-columns:repeat(3,1fr);">
+                  <div class="card"><div class="dot" style="background:#20C7A7;"></div><div class="l1"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div></div>
+                  <div class="card"><div class="dot" style="background:#F0A93A;"></div><div class="l1"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div></div>
+                  <div class="card"><div class="dot" style="background:#20C7A7;"></div><div class="l1"></div></div>
+                  <div class="card"><div class="dot"></div><div class="l1"></div></div>
+                </div>
+              </div>
+              <div class="statusbar"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-block">
+        <div class="compare-label">Kiosk &amp; mobile</div>
+        <div class="compare-row">
+          <div class="panel legacy">
+            <div class="panel-tag">Legacy</div>
+            <div class="mock" style="align-items:center;">
+              <div style="width:120px; margin:0 auto; background:#FBF7EE; border:1px solid #E7DCC2; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; height:190px;">
+                <div style="height:8px; width:60%; background:#DCCEA9; border-radius:2px;"></div>
+                <div style="height:40px; background:#F3E3CB; border-radius:4px;"></div>
+                <div style="height:16px; background:#C7A96A; border-radius:3px;"></div>
+                <div style="height:16px; background:#DCCFB0; border-radius:3px;"></div>
+                <div style="height:16px; background:#EFE7D3; border:1px solid #DCCFB0; border-radius:3px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="switch-col"><div class="switch-arrow"><svg width="24" height="24" viewBox="0 0 32 24" fill="none">
+              <defs><linearGradient id="arrowGrad3" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#B0864C"/>
+                <stop offset="100%" stop-color="#6C4FF6"/>
+              </linearGradient></defs>
+              <line x1="2" y1="12" x2="22" y2="12" stroke="url(#arrowGrad3)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M16 4 L26 12 L16 20" fill="none" stroke="url(#arrowGrad3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></div></div>
+          <div class="panel modern">
+            <div class="panel-tag">Modernized</div>
+            <div class="mock" style="align-items:center;">
+              <div style="width:120px; margin:0 auto; background:var(--paper); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:10px; height:190px;">
+                <div style="height:14px; width:16px; background:var(--violet-soft); border-radius:4px;"></div>
+                <div style="height:50px; background:var(--violet-soft); border-radius:8px;"></div>
+                <div style="height:20px; background:var(--violet); border-radius:6px;"></div>
+                <div style="height:20px; background:#fff; border:1px solid var(--line); border-radius:6px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">20+</div><div class="lbl">Enterprise products unified</div></div>
+        <div class="stat"><div class="num">5,000+</div><div class="lbl">Screens modernized</div></div>
+        <div class="stat"><div class="num">1.5–2x</div><div class="lbl">Faster delivery after adoption</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Regions aligned to one standard</div></div>
+      </div>
+    </div>
+
+    <section style="padding-top:0;">
+      <div class="section-tag">The Approach</div>
+      <h2 class="section-title">A systems fix, not a visual refresh</h2>
+      <div class="approach-list">
+        <div class="approach-item">
+          <div class="phase">Benchmark</div>
+          <div>
+            <h3>Studied established systems, then diverged</h3>
+            <p>Used Microsoft Fluent and Google Material as reference points for structure and rigor, then built a distinct visual identity suited to the enterprise's own products and users.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Audit</div>
+          <div>
+            <h3>Mapped legacy UI across the full portfolio</h3>
+            <p>Catalogued inconsistent navigation models, visual density, and duplicated interaction patterns for the same core tasks — making the fragmentation visible and prioritizable.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Codify</div>
+          <div>
+            <h3>Centralized usability and accessibility once</h3>
+            <p>Codified into 42+ reusable patterns and 65+ components, built centrally so no product team had to rediscover or reinterpret usability and accessibility rules on its own.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="phase">Scale</div>
+          <div>
+            <h3>Rolled out product-by-product on shared foundations</h3>
+            <p>Applied the system across floor operations, cage and credit management, table management, kiosks, and patron-facing mobile apps — each transformed using the same reusable foundation rather than a bespoke redesign.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Illustrative representations and screens generalized for public presentation due to NDA.</p>
+  </footer>
+
+</body>
+</html>
