@@ -39,6 +39,8 @@
   var THEME_KEY = 'siteTheme';
   var SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>';
   var MOON_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+  var MENU_ICON = '<svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>' +
+                  '<svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"></path></svg>';
 
   function getStoredTheme(){
     try { return localStorage.getItem(THEME_KEY); } // 'light' | 'dark' | null
@@ -103,6 +105,40 @@
     });
     nav.querySelector('.site-nav-wrap').appendChild(themeBtn);
 
+    // ---------- mobile hamburger + slide-down menu (<=760px) ----------
+    var hamburger = document.createElement('button');
+    hamburger.type = 'button';
+    hamburger.className = 'nav-hamburger';
+    hamburger.setAttribute('aria-label', 'Open menu');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.innerHTML = MENU_ICON;
+    nav.querySelector('.site-nav-wrap').appendChild(hamburger);
+
+    var mobileMenu = document.createElement('div');
+    mobileMenu.className = 'site-mobile-menu';
+    mobileMenu.setAttribute('data-open', 'false');
+    mobileMenu.innerHTML =
+      '<div class="site-mobile-menu-inner">' +
+        linkHTML(HOME, current, true) +
+        sectionLinksHTML +
+        '<div class="mobile-menu-label">Case Studies</div>' +
+        caseLinksHTML +
+      '</div>';
+    nav.appendChild(mobileMenu);
+
+    hamburger.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = mobileMenu.getAttribute('data-open') === 'true';
+      mobileMenu.setAttribute('data-open', String(!open));
+      hamburger.setAttribute('aria-expanded', String(!open));
+      hamburger.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+    var closeMobileMenu = function(){
+      mobileMenu.setAttribute('data-open', 'false');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+    };
+
     document.body.insertBefore(nav, document.body.firstChild);
 
     var drop = nav.querySelector('.site-navdrop');
@@ -119,11 +155,15 @@
         drop.setAttribute('data-open', 'false');
         toggle.setAttribute('aria-expanded', 'false');
       }
+      if (!mobileMenu.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)){
+        closeMobileMenu();
+      }
     });
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape'){
         drop.setAttribute('data-open', 'false');
         toggle.setAttribute('aria-expanded', 'false');
+        closeMobileMenu();
       }
     });
   }

@@ -54,6 +54,46 @@
   .site-navlinks{ display:none; }
 }
 
+.nav-hamburger{
+  display:none; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:8px;
+  border:1px solid rgba(224,228,240,0.18); background:none; cursor:pointer;
+  color:#B9BFD6; flex-shrink:0;
+  transition:color .2s ease, border-color .2s ease;
+}
+.nav-hamburger:hover, .nav-hamburger:focus-visible{ color:#3FC9AE; border-color:rgba(63,201,174,0.4); }
+.nav-hamburger:focus-visible{ outline:2px solid #3FC9AE; outline-offset:2px; }
+.nav-hamburger svg{ width:18px; height:18px; display:block; }
+.nav-hamburger .icon-close{ display:none; }
+.nav-hamburger[aria-expanded="true"] .icon-open{ display:none; }
+.nav-hamburger[aria-expanded="true"] .icon-close{ display:block; }
+
+.site-mobile-menu{
+  display:flex; flex-direction:column;
+  max-height:0; overflow:hidden; opacity:0;
+  border-top:0 solid rgba(224,228,240,0.14);
+  background:rgba(7,9,15,0.98);
+  transition:max-height .25s ease, opacity .2s ease, border-top-width .25s ease;
+}
+.site-mobile-menu[data-open="true"]{ max-height:70vh; opacity:1; overflow-y:auto; border-top-width:1px; }
+.site-mobile-menu-inner{ padding:8px 32px 24px; display:flex; flex-direction:column; }
+.site-mobile-menu a{
+  padding:13px 2px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase;
+  color:#B9BFD6; border-bottom:1px solid rgba(224,228,240,0.08);
+}
+.site-mobile-menu a:last-child{ border-bottom:none; }
+.site-mobile-menu a:hover, .site-mobile-menu a:focus-visible, .site-mobile-menu a.active{ color:#3FC9AE; }
+.mobile-menu-label{
+  padding:18px 2px 6px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:#6B7290;
+}
+
+@media (max-width:760px){
+  .nav-hamburger{ display:flex; }
+}
+@media (prefers-reduced-motion: reduce){
+  .site-mobile-menu{ transition:none; }
+}
+
 .theme-toggle{
   display:flex; align-items:center; justify-content:center;
   width:34px; height:34px; border-radius:50%;

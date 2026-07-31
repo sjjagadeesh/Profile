@@ -4,7 +4,7 @@
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jagadeesh SJ, Enterprise Experience Transformation Leader</title>
+<title>Jagadeesh SJ — Enterprise Experience Transformation Leader</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="nav.css">
@@ -46,7 +46,7 @@
     --amber-soft:#FBF1DE;
   }
   /* the dark gradient .cover bands (hero, philosophy, mid-transition, contact) stay
-     unchanged in both themes, same pattern the case studies already use, so a few
+     unchanged in both themes, same pattern the case studies already use — so a few
      accent colors calibrated for that dark bg need pinning independent of --text/--teal */
   :root[data-theme="light"] .tag-violet{ color:#6C4FF6; }
   :root[data-theme="light"] .tag-teal{ color:#1E9E86; }
@@ -106,37 +106,6 @@
   @media (max-width:600px){
     .cover-mark{ right:-36px; bottom:-36px; }
   }
-
-  /* ---------- PHYLLOTAXIS BLOOM (bigger, brightens + scales on hover) ----------
-     Bigger than the original .cover-mark, plus a JS-driven brighten/scale
-     effect that ramps up as the cursor nears the bloom (see initBloomHover
-     in the script below). Used on all four .cover bands: hero, philosophy,
-     mid, contact. */
-  .bloom-wrap{
-    position:absolute; right:-70px; bottom:-70px;
-    width:clamp(220px, 54vw, 640px); height:clamp(220px, 54vw, 640px);
-    z-index:1; pointer-events:none;
-    transition:transform .3s cubic-bezier(.2,.8,.2,1);
-    will-change:transform;
-  }
-  .bloom-wrap .cover-mark{
-    position:static; right:auto; bottom:auto;
-    width:100%; height:100%;
-    opacity:0.055;
-    transition:opacity .3s ease;
-  }
-  .bloom-wrap.mirror{ left:-70px; right:auto; }
-  @media (max-width:600px){
-    .bloom-wrap{
-      right:-30px; bottom:-30px;
-      width:clamp(160px, 46vw, 260px); height:clamp(160px, 46vw, 260px);
-    }
-    .bloom-wrap.mirror{ left:-30px; right:auto; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .bloom-wrap{ transition:none; }
-    .bloom-wrap .cover-mark{ transition:none; }
-  }
   .cover-particles{ position:absolute; inset:0; z-index:0; pointer-events:none; opacity:0.55; }
   .particle-dot{ opacity:0.14; animation-name:particleTwinkle; animation-timing-function:ease-in-out; animation-iteration-count:infinite; }
   @keyframes particleTwinkle{
@@ -192,10 +161,8 @@
   /* intro strip under hero */
   .intro-strip{ padding:56px 0; }
   .intro-strip p{ max-width:64ch; font-size:16.5px; color:var(--text-soft); }
-  .intro-strip p + p{ margin-top:16px; }
   .stat-inline{ display:flex; flex-wrap:wrap; gap:0; margin-top:38px; border-top:1px solid var(--line); }
   .stat-inline div{ flex:1 1 160px; padding:20px 24px 0 0; border-right:1px solid var(--line); }
-  .stat-inline div:not(:first-child){ padding-left:8px; }
   .stat-inline div:last-child{ border-right:none; }
   .stat-num{ font-family:'Space Grotesk',sans-serif; font-size:25px; font-weight:700; color:var(--text); }
   .stat-label{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-top:6px; }
@@ -278,15 +245,12 @@
 
 <!-- ============ HERO COVER ============ -->
 <header class="cover tall" id="top">
-  <div class="bloom-wrap" id="heroMarkWrap">
-    <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-hero"></g></svg>
-  </div>
+  <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-hero"></g></svg>
   <div class="wrap">
     <span class="eyebrow">Jagadeesh SJ &nbsp;·&nbsp; Portfolio 2026</span>
     <span class="eyebrow-tick"></span>
     <h1 class="statement">I didn't set out to build a design system.<br><span class="dim">I set out to stop repeating myself.</span></h1>
-    <p class="cover-sub">Over nineteen years in enterprise UX, solving the same design problems gradually became a larger pursuit: helping enterprise teams build products through systems instead of isolated decisions.</p>
-    <p class="cover-sub">Today that work spans design systems, accessibility, AI-assisted automation, and enterprise transformation.</p>
+    <p class="cover-sub">Nineteen-plus years in enterprise UX. Most recently, architect of Floret: one shared language now running under 20+ products and 5,000+ screens.</p>
     <!-- <span class="status-pill">Open to Director / Head of Design roles</span> -->
     <div class="cover-actions">
       <a href="#work" class="btn btn-primary">See the work</a>
@@ -299,47 +263,42 @@
 <!-- ============ INTRO STRIP ============ -->
 <section class="page intro-strip">
   <div class="wrap">
-    <p>I'm an enterprise experience transformation leader based in Chennai. Most of my career has been spent inside large, high-stakes software ecosystems, from casino management systems to patron engagement platforms.</p>
-    <p>I learned early that the real challenge isn't designing the screen in front of you. It's helping that screen work seamlessly with the twenty others around it.</p>
+    <p>I'm an enterprise experience transformation leader based in Chennai. Most of my career has been spent inside large, messy, high-stakes software, casino management systems, patron platforms, floor operations, where the real work isn't the screen in front of you, it's the twenty other screens it has to agree with.</p>
     <div class="stat-inline">
-      <div><span class="stat-num">19+</span><br><span class="stat-label">Years Leading Enterprise UX</span></div>
-      <div><span class="stat-num">20+</span><br><span class="stat-label">Products unified</span></div>
-      <div><span class="stat-num">5,000+</span><br><span class="stat-label">Screens modernized</span></div>
-      <div><span class="stat-num">1</span><br><span class="stat-label">Joint U.S. patent</span></div>
+      <div><span class="stat-num">19+</span><span class="stat-label">Years in UX leadership</span></div>
+      <div><span class="stat-num">20+</span><span class="stat-label">Products unified</span></div>
+      <div><span class="stat-num">5,000+</span><span class="stat-label">Screens modernized</span></div>
+      <div><span class="stat-num">1</span><span class="stat-label">Joint U.S. patent</span></div>
     </div>
   </div>
 </section>
 
 <!-- ============ PHILOSOPHY COVER ============ -->
-<section class="cover short" id="philosophy">
+<section class="cover short">
   <svg class="cover-particles" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><g id="particles-phil"></g></svg>
-  <div class="bloom-wrap" id="philMarkWrap">
-    <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-phil"></g></svg>
-  </div>
+  <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-phil"></g></svg>
   <div class="wrap">
-    <span class="eyebrow">How I Think</span>
+    <span class="eyebrow">Philosophy</span>
     <span class="eyebrow-tick"></span>
     <p class="statement" style="max-width:19ch;">Great experiences are rarely the result of individual screens.<br><span class="dim">They emerge from systems.</span></p>
-    <p class="cover-sub"><br>As products and teams grew, I realized that inconsistency wasn't a design problem. It was a decision-making problem. Building better experiences meant helping organizations make better design decisions consistently, across teams, products, and over time.</p>
-<p class="cover-sub">
-That's the common thread connecting every project you'll see below.</p>
+    <p class="cover-sub mono" style="font-family:'IBM Plex Mono',monospace; font-size:12px; margin-top:22px;">— a line I've kept returning to, across three companies and one very large design system</p>
   </div>
 </section>
 
 <!-- ============ WORK ============ -->
 <section class="page" id="work">
   <div class="wrap">
-    <div class="kicker"><span class="kicker-line"></span><span class="kicker-label">Featured work</span><span class="kicker-meta">04 featured · 02 research</span></div>
-    <h2 class="page-title">Four transformations that changed how teams design at scale.</h2>
-    <p class="page-lede">Each initiative tackled a different challenge, organizational, technical, or operational. Together, they reflect a common goal: helping teams make better design decisions through systems.</p>
+    <div class="kicker"><span class="kicker-line"></span><span class="kicker-label">Selected work</span><span class="kicker-meta">04 featured · 02 research</span></div>
+    <h2 class="page-title">Four initiatives that shaped how enterprise design actually gets made.</h2>
+    <p class="page-lede">Each one solved a different kind of tangle, technical, organizational, or perceptual, at real scale, with a real team behind it.</p>
 
     <div class="work-list">
       <a href="floret_casestudy.html" class="work-row">
         <span class="work-num">01</span>
         <div class="work-body">
-          <span class="tag tag-violet">Design Systems · Governance</span>
+          <span class="tag tag-violet">Design systems · Governance</span>
           <h3>Floret Design System</h3>
-          <p>Created a shared design language that unified 20+ enterprise products, replacing fragmented UI with a scalable system of components, tokens, governance, and starter kits.</p>
+          <p>Built from scratch and scaled into the shared language behind the entire enterprise product portfolio: components, tokens, and starter kits that replaced two decades of one-off UI.</p>
           <span class="case-link">View case study <span class="arrow">→</span></span>
         </div>
         <div class="work-metrics-col">
@@ -352,9 +311,9 @@ That's the common thread connecting every project you'll see below.</p>
       <a href="floretcodegen_casestudy.html" class="work-row">
         <span class="work-num">02</span>
         <div class="work-body">
-          <span class="tag tag-teal">AI-assisted Automation</span>
-          <h3>Floret CodeGen</h3>
-          <p>Built an AI-assisted workflow that translates design intent into production-ready code, reducing implementation effort so teams can focus on product decisions.</p>
+          <span class="tag tag-teal">AI-assisted workflows</span>
+          <h3>Floret Codegen</h3>
+          <p>An AI-assisted approach built on vector search, matching design intent to production code so teams spend less time translating a screen and more time deciding if it's right.</p>
           <span class="case-link">View case study <span class="arrow">→</span></span>
         </div>
         <div class="work-metrics-col">
@@ -366,9 +325,9 @@ That's the common thread connecting every project you'll see below.</p>
       <a href="wcagaccessibility_casestudy.html" class="work-row">
         <span class="work-num">03</span>
         <div class="work-body">
-          <span class="tag tag-amber">Accessibility · Governance</span>
+          <span class="tag tag-amber">Accessibility governance</span>
           <h3>WCAG 2.2 Program</h3>
-          <p>Established accessibility as an organizational capability by embedding standards, audits, and enablement directly into the design system and delivery process.</p>
+          <p>Stood up accessibility as a governed discipline rather than a checklist: audits, standards, and enablement built directly into the design system and delivery process.</p>
           <span class="case-link">View case study <span class="arrow">→</span></span>
         </div>
         <div class="work-metrics-col">
@@ -381,9 +340,9 @@ That's the common thread connecting every project you'll see below.</p>
       <a href="sysrupt_casestudy.html" class="work-row">
         <span class="work-num">04</span>
         <div class="work-body">
-          <span class="tag tag-magenta">Innovation Leadership</span>
+          <span class="tag tag-magenta">Innovation program</span>
           <h3>SYSrupt</h3>
-          <p>Scaled an internal innovation initiative into a multi-season program that fostered experimentation, cross-functional collaboration, and patent generation.</p>
+          <p>Took a leadership idea born mid-pandemic and operationalized it into a five-season innovation program, owning the creative process and execution end to end, season after season.</p>
           <span class="case-link">View case study <span class="arrow">→</span></span>
         </div>
         <div class="work-metrics-col">
@@ -396,12 +355,12 @@ That's the common thread connecting every project you'll see below.</p>
     <div class="research-row">
       <a href="responsiblegaming_casestudy.html" class="research-card">
         <h4>Responsible Gaming, Illinois</h4>
-        <p>Redesigned a responsible gaming experience by validating product decisions through behavioral research rather than intuition.</p>
+        <p>Redesigned a limit-setting tool across carded and uncarded play, benchmarked against five UX dimensions rather than a single usability score.</p>
         <span class="case-link">View case study <span class="arrow">→</span></span>
       </a>
       <a href="pbl_casestudy.html" class="research-card">
         <h4>PBL Click Test</h4>
-        <p>A 200-participant usability study that challenged the original hypothesis and reinforced the value of evidence-based design decisions.</p>
+        <p>A 200-participant Userzoom study that overturned the original design hypothesis: the variant that felt riskier won on both speed (16s vs 20s) and preference (76%).</p>
         <span class="case-link">View case study <span class="arrow">→</span></span>
       </a>
     </div>
@@ -409,16 +368,13 @@ That's the common thread connecting every project you'll see below.</p>
 </section>
 
 <!-- ============ MID-TRANSITION COVER ============ -->
-<section class="cover short" id="midTransition">
+<section class="cover short">
   <svg class="cover-particles" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><g id="particles-mid"></g></svg>
-  <div class="bloom-wrap" id="midMarkWrap">
-    <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-mid"></g></svg>
-  </div>
+  <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-mid"></g></svg>
   <div class="wrap">
     <span class="eyebrow">On the work</span>
     <span class="eyebrow-tick"></span>
     <p class="statement" style="max-width:17ch;">The job was never the pixels.<br><span class="dim">It was the decisions behind them.</span></p>
-    <p class="cover-sub">Over time, my role evolved from designing interfaces to shaping the systems, teams, and decisions that make great products possible.</p>
   </div>
 </section>
 
@@ -427,15 +383,14 @@ That's the common thread connecting every project you'll see below.</p>
   <div class="wrap">
     <div class="kicker"><span class="kicker-line"></span><span class="kicker-label">Capabilities</span><span class="kicker-meta">6 primary · 7 supporting</span></div>
     <h2 class="page-title">What I actually do, in the language I'd use to hand it off.</h2>
-    <p class="page-lede">Job titles rarely capture the work. These are the capabilities I've built through leading enterprise transformation, not just individual projects.</p>
 
     <div class="cap-group">
       <span class="cap-group-label">Primary</span>
       <div class="cap-chips">
         <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Enterprise transformation</span>
         <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Experience strategy</span>
-        <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Executive stakeholder management</span>
         <span class="chip"><span class="dot" style="background:#8B7CF6"></span>UX leadership</span>
+        <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Executive stakeholder management</span>
         <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Design systems</span>
         <span class="chip"><span class="dot" style="background:#8B7CF6"></span>Design operations</span>
       </div>
@@ -443,12 +398,12 @@ That's the common thread connecting every project you'll see below.</p>
     <div class="cap-group">
       <span class="cap-group-label">Supporting</span>
       <div class="cap-chips">
-        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>AI-assisted Automation</span>
-        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Accessibility & Design Governance</span>
+        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>AI-assisted automation</span>
+        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Accessibility & design governance</span>
         <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Workflow simplification</span>
-        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Cross-functional leadership</span>
         <span class="chip"><span class="dot" style="background:#3FC9AE"></span>User research</span>
         <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Information architecture</span>
+        <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Cross-functional leadership</span>
         <span class="chip"><span class="dot" style="background:#3FC9AE"></span>Innovation programs</span>
       </div>
     </div>
@@ -483,7 +438,7 @@ That's the common thread connecting every project you'll see below.</p>
         <span class="tl-year">2001</span>
         <h4>Design Foundations</h4>
         <span class="tl-org">Visual &amp; Web Designer</span>
-        <p>Early career across eDots, Content Solutions, and Adrenalin eSystems, building the web, graphic, and interface design foundations that everything since has stood on.</p>
+        <p>Early career across eDots, Content Solutions, and Adrenalin eSystems, building the web, graphic, and interface design fundamentals everything since has stood on.</p>
       </div>
     </div>
   </div>
@@ -495,13 +450,13 @@ That's the common thread connecting every project you'll see below.</p>
     <div class="kicker"><span class="kicker-line"></span><span class="kicker-label">Recognition</span></div>
     <div class="recog-grid">
       <div class="recog-quote">
-        <p>"Your dedication to our craft and our team's outcomes has been over and above, and an inspiration. You will continue to elevate the organizations you work for and the user experiences you create for years to come."</p>
+        <p>"Your dedication to our craft and our team's outcomes has been over and above, and truly an inspiration. You will continue to elevate the organizations you work for and the user experiences you create for years to come."</p>
         <cite><h3 class="tl-year">Jon Wolfe </h3> President, Light &amp; Wonder</cite>
       </div>
       <div class="patent-card">
         <span class="tag">Joint U.S. Patent Application</span>
         <h4>No. 19/412225</h4>
-        <p>Co-inventor of an interaction routing and dynamic content overlay innovation.</p>
+        <p>Co-inventor, interaction routing and dynamic content overlay innovation.</p>
       </div>
     </div>
   </div>
@@ -510,9 +465,7 @@ That's the common thread connecting every project you'll see below.</p>
 <!-- ============ CLOSING COVER / CONTACT ============ -->
 <section class="cover" id="contact" style="text-align:center; padding:120px 0;">
   <svg class="cover-particles" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><g id="particles-close"></g></svg>
-  <div class="bloom-wrap mirror" id="closeMarkWrap">
-    <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true"><g id="floret-close"></g></svg>
-  </div>
+  <svg class="cover-mark" viewBox="0 0 400 400" aria-hidden="true" style="left:-60px; right:auto;"><g id="floret-close"></g></svg>
   <div class="wrap">
     <span class="eyebrow">Let's talk</span>
     <span class="eyebrow-tick" style="margin-left:auto; margin-right:auto;"></span>
@@ -556,7 +509,7 @@ That's the common thread connecting every project you'll see below.</p>
   }
   ['floret-hero','floret-phil','floret-mid','floret-close'].forEach(id => drawFloret(id, 70));
 
-  // ambient background particles, scattered across the whole cover, kept low-opacity so it never competes with content
+  // ambient background particles, scattered across the whole cover — kept low-opacity so it never competes with content
   function drawParticles(id, count){
     const g = document.getElementById(id);
     if(!g) return;
@@ -578,47 +531,6 @@ That's the common thread connecting every project you'll see below.</p>
     }
   }
   ['particles-phil','particles-mid','particles-close'].forEach(id => drawParticles(id, 46));
-
-  // phyllotaxis bloom: brightens and scales up as the cursor nears the bloom
-  // itself, easing back to rest on mouse-leave, disabled for touch and
-  // reduced-motion. Shared across all four .cover bands.
-  function initBloomHover(sectionEl, wrapEl){
-    if (!sectionEl || !wrapEl) return;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-    if (prefersReduced || isCoarsePointer) return;
-
-    const markEl = wrapEl.querySelector('.cover-mark');
-    if (!markEl) return;
-
-    const baseOpacity = 0.055, peakOpacity = 0.16, peakScale = 1.09;
-    function setStrength(strength){
-      const opacity = baseOpacity + (peakOpacity - baseOpacity) * strength;
-      const scale = 1 + (peakScale - 1) * strength;
-      markEl.style.opacity = opacity.toFixed(3);
-      wrapEl.style.transform = `scale(${scale.toFixed(3)})`;
-    }
-
-    sectionEl.addEventListener('mousemove', function(e){
-      const rect = wrapEl.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const influenceRadius = Math.max(rect.width, rect.height) * 0.9;
-      const strength = Math.max(0, 1 - dist / influenceRadius);
-      setStrength(strength);
-    });
-    sectionEl.addEventListener('mouseleave', function(){
-      setStrength(0);
-    });
-  }
-
-  initBloomHover(document.getElementById('top'), document.getElementById('heroMarkWrap'));
-  initBloomHover(document.getElementById('philosophy'), document.getElementById('philMarkWrap'));
-  initBloomHover(document.getElementById('midTransition'), document.getElementById('midMarkWrap'));
-  initBloomHover(document.getElementById('contact'), document.getElementById('closeMarkWrap'));
 </script>
 
 </body>

@@ -3,7 +3,8 @@
 <head>
 <script>(function(){try{var t=localStorage.getItem('siteTheme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <meta charset="UTF-8">
-<title>Floret Codegen — Closing the Gap Between Design Intent and Code</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floret Codegen, Closing the Gap Between Design Intent and Code</title>
 <link rel="stylesheet" href="nav.css">
 <script src="nav.js" defer></script>
 <style>
@@ -243,13 +244,20 @@
     .approach-item{grid-template-columns:1fr; gap:6px;}
     .hero h1{font-size:30px;}
   }
+  @media (max-width:600px){
+    .wrap{padding:0 20px;}
+    section{padding:44px 0;}
+    .tldr{padding:22px 20px; margin:-30px 0 40px;}
+    .tldr-grid{grid-template-columns:1fr; gap:16px;}
+    .causes{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
 
   <div class="hero">
     <div class="wrap">
-      <span class="eyebrow"><span class="dot"></span>AI-Assisted Workflows — Design Systems</span>
+      <span class="eyebrow"><span class="dot"></span>AI-Assisted Workflows, Design Systems</span>
       <h1>Floret Codegen: closing the gap<br><span>between design intent and production code.</span></h1>
       <p class="dek">An AI-assisted approach built on vector search, matching design intent to production code so teams spend less time translating a screen and more time deciding if it's right.</p>
       <div class="hero-meta">
@@ -288,7 +296,7 @@
     <section style="padding-top:0;">
       <div class="section-tag">The Problem</div>
       <h2 class="section-title">Floret solved this once. Developers kept re-solving it.</h2>
-      <p class="section-desc">The design system already had the answer for most screens. The gap wasn't decisions, it was distance — between a finished design and the code that matched it.</p>
+      <p class="section-desc">The design system already had the answer for most screens. The gap wasn't decisions, it was distance, between a finished design and the code that matched it.</p>
       <div class="causes">
         <div class="cause-card"><div class="num">01</div><p>A near-identical pattern usually already existed somewhere in Floret's 65+ components</p></div>
         <div class="cause-card"><div class="num">02</div><p>Finding it meant searching documentation manually, by memory or by keyword</p></div>
@@ -300,7 +308,7 @@
     <section>
       <div class="section-tag">Before / After</div>
       <h2 class="section-title">Same outcome, a shorter distance to get there</h2>
-      <p class="section-desc">Not a different design process — the same judgment, applied to something machine-searchable instead of memory-dependent.</p>
+      <p class="section-desc">Not a different design process, the same judgment, applied to something machine-searchable instead of memory-dependent.</p>
 
       <div class="compare-block">
         <div class="compare-label">Getting from a finished screen to working code</div>
@@ -356,14 +364,14 @@
           <div class="phase">Reframe</div>
           <div>
             <h3>Retrieval, not generation</h3>
-            <p>The goal was never "generate UI from scratch." Floret already contained the right answer for most screens — the task was finding and adapting it, consistent with the system's core philosophy of reuse over reinvention.</p>
+            <p>The goal was never "generate UI from scratch." Floret already contained the right answer for most screens, the task was finding and adapting it, consistent with the system's core philosophy of reuse over reinvention.</p>
           </div>
         </div>
         <div class="approach-item">
           <div class="phase">Index</div>
           <div>
             <h3>Made the system searchable by meaning</h3>
-            <p>Represented Floret's patterns and components so they could be matched by intent, not just exact keywords — an AI-assisted approach built on vector search.</p>
+            <p>Represented Floret's patterns and components so they could be matched by intent, not just exact keywords, an AI-assisted approach built on vector search.</p>
           </div>
         </div>
         <div class="approach-item">
@@ -377,14 +385,14 @@
           <div class="phase">Judgment</div>
           <div>
             <h3>Kept the decision with the developer</h3>
-            <p>Codegen surfaces a strong starting point, not a final answer — the developer still decides whether the match is right for the context, same as before.</p>
+            <p>Codegen surfaces a strong starting point, not a final answer, the developer still decides whether the match is right for the context, same as before.</p>
           </div>
         </div>
       </div>
 
       <div class="callout">
         <span class="tag2">Key insight</span>
-        <p>The bigger lesson wasn't about AI. It was about reducing the distance between intent and implementation. AI wasn't replacing expertise, it was making existing knowledge easier to discover — that's where the real value came from.</p>
+        <p>The bigger lesson wasn't about AI. It was about reducing the distance between intent and implementation. AI wasn't replacing expertise, it was making existing knowledge easier to discover, that's where the real value came from.</p>
       </div>
     </section>
   </div>
