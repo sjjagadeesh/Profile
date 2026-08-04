@@ -18,7 +18,7 @@
 
   var CASE_STUDIES = [
     { href: 'floret_casestudy.html', label: 'Floret Design System' },
-    { href: 'floretcodegen_casestudy.html', label: 'Floret Codegen' },
+    { href: 'floretcodegen_casestudy.html', label: 'Floret CodeGen' },
     { href: 'wcagaccessibility_casestudy.html', label: 'WCAG 2.2 Accessibility' },
     { href: 'pbl_casestudy.html', label: 'PBL Click Test' },
     { href: 'responsiblegaming_casestudy.html', label: 'Responsible Gaming' },
@@ -74,7 +74,7 @@
     nav.innerHTML =
       '<div class="site-nav-wrap">' +
         '<a href="' + HOME.href + '" class="site-brand">' +
-          '<span class="site-brand-dot"></span>' +
+          '<svg class="site-brand-mark" viewBox="-120 -120 240 240" aria-hidden="true"><path d="M 70.71,70.71 Q 0,10.71 -70.71,70.71 Q -10.71,0 -70.71,-70.71 Q 0,-10.71 70.71,-70.71 Q 10.71,0 70.71,70.71 Z" fill="none" stroke="#3FC9AE" stroke-width="20"/></svg>' +
           '<span class="site-brand-name">Jagadeesh SJ</span>' +
         '</a>' +
         '<div class="site-navlinks">' +
