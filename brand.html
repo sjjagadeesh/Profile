@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience by Design · Identity Constitution</title>
+<!-- internal doc version: v2.0 — not displayed publicly -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#07090F; --charcoal:#14161B; --white:#F4F4F8;
+    --teal:#3FC9AE; --emerald:#2FAE86; --cyan:#4FD1E5;
+    --violet:#8B7CF6; --amber:#E3B45C; --rose:#F0679F;
+    --ink:#F4F4F8; --ink-mid:rgba(244,244,248,.72); --ink-dim:rgba(244,244,248,.50); --ink-faint:rgba(244,244,248,.30);
+    --line:rgba(244,244,248,.12); --line-soft:rgba(244,244,248,.06);
+    --maxw:1200px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;background:var(--navy);}
+  body{background:var(--navy);color:var(--ink-mid);font-family:'Inter',sans-serif;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;color:var(--ink);font-weight:600;letter-spacing:-.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;}
+  a{color:inherit;}
+  ::selection{background:var(--violet);color:var(--navy);}
+
+  /* ---------- reveal-on-scroll ---------- */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .rv.in{opacity:1;transform:translateY(0);}
+  .rv2{transition-delay:.12s;} .rv3{transition-delay:.24s;} .rv4{transition-delay:.36s;} .rv5{transition-delay:.48s;}
+  @media (prefers-reduced-motion:reduce){ .rv{opacity:1!important;transform:none!important;transition:none!important;} html{scroll-behavior:auto;} }
+
+  /* ---------- nav ---------- */
+  .sysnav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:22px 40px;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(7,9,15,.86),rgba(7,9,15,0));}
+  .sysnav .brand{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mid);}
+  .sysnav .brand svg{width:18px;height:18px;flex:0 0 auto;}
+  .sysnav .idx{display:flex;gap:3px;}
+  .sysnav .idx button{width:7px;height:7px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:background .3s,transform .3s;}
+  .sysnav .idx button.on{background:var(--teal);transform:scale(1.35);}
+  @media (max-width:760px){ .sysnav .idx{display:none;} .sysnav{padding:18px 22px;} }
+
+  /* ---------- section scaffold ---------- */
+  section{position:relative;padding:150px 0;border-bottom:1px solid var(--line-soft);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:inline-flex;align-items:center;gap:10px;}
+  .eyebrow .n{color:var(--ink-faint);}
+  .kicker{margin-top:22px;font-size:clamp(28px,3.6vw,44px);line-height:1.14;max-width:18ch;}
+  @media (max-width:760px){ section{padding:100px 0;} .wrap{padding:0 24px;} }
+
+  .bridge{margin-top:64px;padding-top:24px;border-top:1px solid var(--line-soft);font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint);letter-spacing:.02em;max-width:52ch;}
+  .bridge .arr{color:var(--teal);margin-right:10px;}
+
+  /* =======================================================================
+     PAGE 01 — HERO
+  ======================================================================= */
+  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:120px;border-bottom:1px solid var(--line-soft);}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} .hero-stage{order:-1;height:280px;} }
+  .hero h1{font-size:clamp(36px,5.2vw,62px);line-height:1.08;letter-spacing:-.02em;margin:20px 0 22px;max-width:18ch;}
+  .hero .sub{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(17px,1.7vw,20px);color:var(--ink-mid);max-width:34ch;margin-bottom:20px;}
+  .hero p{font-size:15.5px;color:var(--ink-dim);max-width:42ch;}
+  .hero-stage{position:relative;height:440px;}
+  .hero-stage svg{width:100%;height:100%;}
+  .scroll-note{position:absolute;left:40px;bottom:36px;display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+  .scroll-note .chev{display:inline-block;animation:chevbob 2.4s ease-in-out infinite;}
+  @keyframes chevbob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(5px);opacity:1;}}
+  @media (max-width:760px){ .scroll-note{position:static;margin-top:56px;} }
+
+  /* =======================================================================
+     PAGE 02 — WHY
+  ======================================================================= */
+  .why .lede{font-size:clamp(22px,2.6vw,30px);line-height:1.4;color:var(--ink);max-width:22ch;margin:26px 0 40px;font-family:'Space Grotesk',sans-serif;font-weight:600;}
+  .why .body-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .why .body-col p{font-size:16px;max-width:44ch;margin-bottom:18px;}
+  .pullquote{margin-top:64px;padding-left:28px;border-left:2px solid var(--teal);}
+  .pullquote p{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(22px,2.8vw,32px);color:var(--ink);line-height:1.25;max-width:16ch;}
+  @media (max-width:900px){ .why .body-col{grid-template-columns:1fr;} }
+  .mini-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px;}
+  .why-now{margin-top:64px;padding-top:44px;border-top:1px solid var(--line);}
+  .wn-line{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,2vw,21px);color:var(--ink-dim);margin-bottom:10px;font-weight:500;max-width:38ch;}
+  .wn-line.strong{color:var(--ink);font-weight:600;margin-top:10px;}
+
+  /* =======================================================================
+     PAGE 03 — THE THEOREM
+  ======================================================================= */
+  .theorem-grid{display:grid;grid-template-columns:.86fr 1.14fr;gap:56px;align-items:center;}
+  @media (max-width:900px){ .theorem-grid{grid-template-columns:1fr;} }
+  .theorem-copy .line{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;color:var(--ink);margin:10px 0;}
+  .theorem-copy .arrow-line{color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:13px;margin:2px 0 2px 6px;}
+  .theorem-stage{background:var(--charcoal);border:1px solid var(--line);border-radius:16px;padding:26px;}
+  .theorem-stage svg{width:100%;height:auto;display:block;}
+  .theorem-steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
+  .theorem-steps button{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    background:transparent;border:1px solid var(--line);color:var(--ink-dim);padding:8px 12px;border-radius:20px;cursor:pointer;transition:all .3s;}
+  .theorem-steps button.on{border-color:var(--teal);color:var(--teal);background:rgba(63,201,174,.08);}
+  .theorem-caption{margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--ink-faint);text-align:center;}
+  .theorem-caption b{color:var(--ink-dim);font-weight:500;}
+  .name-intro{margin-top:48px;padding:26px 30px;border:1px solid rgba(63,201,174,.3);border-radius:14px;background:rgba(63,201,174,.06);}
+  .name-intro p{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:16.5px;color:var(--ink-mid);max-width:60ch;}
+  .name-intro p b{color:var(--teal);font-weight:700;}
+
+  /* =======================================================================
+     PAGE 04 — IDENTITY GRAMMAR
+  ======================================================================= */
+  .grammar-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin:36px 0 56px;}
+  .grammar-top p{font-size:16px;max-width:40ch;}
+  @media (max-width:900px){ .grammar-top{grid-template-columns:1fr;} }
+  .ops-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  @media (max-width:900px){ .ops-grid{grid-template-columns:repeat(2,1fr);} }
+  .op-cell{background:var(--navy);padding:26px 20px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;}
+  .op-cell svg{width:30px;height:30px;}
+  .op-cell .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em;}
+  .op-cell .t{font-family:'Space Grotesk',sans-serif;font-size:14.5px;color:var(--ink);font-weight:600;}
+  .why-rules{margin:48px 0;}
+  .wr-seq{margin-top:36px;}
+  .wr-row{display:grid;grid-template-columns:44px 1fr;gap:26px;padding:24px 0;}
+  .wr-row:first-child{padding-top:0;}
+  .wr-icon-col{display:flex;flex-direction:column;align-items:center;position:relative;}
+  .wr-icon-col svg{width:34px;height:34px;flex:0 0 auto;}
+  .wr-icon-col .num{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-faint);margin-top:8px;}
+  .wr-connector{position:absolute;top:44px;bottom:-24px;left:50%;width:1px;background:var(--line);transform:translateX(-.5px);}
+  .wr-text .q{display:block;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:var(--ink);margin-bottom:8px;}
+  .wr-text .a{font-size:14px;color:var(--ink-dim);line-height:1.6;max-width:58ch;}
+  .rulebox{margin-top:48px;border:1px solid rgba(139,124,246,.32);border-radius:14px;background:rgba(139,124,246,.06);padding:30px 34px;}
+  .rulebox .k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);}
+  .rulebox p{margin-top:10px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:19px;color:var(--ink);max-width:34ch;line-height:1.4;}
+  .governance-line{margin-top:36px;padding-top:28px;border-top:1px solid var(--line);}
+  .governance-line p{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(19px,2.2vw,25px);color:var(--ink);max-width:32ch;line-height:1.4;}
+
+  /* =======================================================================
+     PAGE 05 — CONSTITUTION POSTER
+  ======================================================================= */
+  .poster{text-align:left;}
+  .poster h2.kicker{max-width:none;font-size:clamp(30px,4vw,46px);margin-bottom:8px;}
+  .poster-list{margin-top:56px;display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--line);}
+  .poster-row{display:grid;grid-template-columns:44px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+  .poster-row .i{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);}
+  .poster-row .a{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(19px,2.1vw,25px);color:var(--ink);}
+  .poster-row .a em{font-style:normal;color:var(--ink-faint);font-weight:500;padding:0 8px;}
+  .poster-foot{margin-top:36px;font-size:15px;color:var(--ink-dim);max-width:46ch;}
+
+  /* =======================================================================
+     PAGE 06 — VISUAL LANGUAGE
+  ======================================================================= */
+  .vl-split{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;margin-top:40px;}
+  @media (max-width:900px){ .vl-split{grid-template-columns:1fr;gap:52px;} }
+  .type-row{padding:22px 0;border-top:1px solid var(--line);}
+  .type-row:last-child{border-bottom:1px solid var(--line);}
+  .type-row .sample{font-size:34px;color:var(--ink);margin-bottom:8px;}
+  .type-row.sg .sample{font-family:'Space Grotesk',sans-serif;font-weight:600;}
+  .type-row.in .sample{font-family:'Inter',sans-serif;font-weight:500;font-size:20px;}
+  .type-row.mo .sample{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:16px;}
+  .type-row .meta{display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;}
+  .type-row .meta b{color:var(--ink-dim);font-weight:500;}
+  .swatch-group{margin-bottom:30px;}
+  .swatch-group .lab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;display:block;}
+  .swatches{display:flex;gap:12px;flex-wrap:wrap;}
+  .swatch{width:84px;}
+  .swatch .chip{height:64px;border-radius:10px;border:1px solid var(--line);}
+  .swatch .name{margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-dim);}
+  .swatch .hex{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);}
+  .principle-line{margin-top:44px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(18px,2vw,22px);color:var(--ink);line-height:1.5;}
+  .principle-line span{display:block;}
+  .principle-line span:nth-child(2){color:var(--teal);}
+  .principle-line span:nth-child(3){color:var(--violet);}
+
+  /* =======================================================================
+     PAGE 07 — MOTION
+  ======================================================================= */
+  .motion-seq{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:40px 0 8px;}
+  .motion-step{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+    border:1px solid var(--line);border-radius:22px;padding:11px 20px;}
+  .motion-arrow{margin:0 12px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;}
+  .motion-lower{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:64px;align-items:start;}
+  @media (max-width:900px){ .motion-lower{grid-template-columns:1fr;} }
+  .never-list{list-style:none;}
+  .never-list li{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink-faint);text-decoration:line-through;padding:9px 0;border-bottom:1px solid var(--line-soft);}
+  .never-list .lab{text-decoration:none;color:var(--rose);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:10px;}
+  .permit-note{margin-top:24px;padding-top:20px;border-top:1px solid var(--line-soft);}
+  .permit-note .lab-ok{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+  .permit-note p{font-size:13px;color:var(--ink-dim);line-height:1.6;margin-bottom:8px;}
+  .permit-note p b{color:var(--ink);font-weight:600;}
+  .motion-stage{background:var(--charcoal);border:1px solid var(--line);border-radius:16px;aspect-ratio:4/3;position:relative;overflow:hidden;}
+  .motion-stage svg{position:absolute;inset:0;width:100%;height:100%;}
+  .motion-cap{position:absolute;left:18px;bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);}
+
+  /* =======================================================================
+     PAGE 08 — EXPRESSIONS
+  ======================================================================= */
+  .expr-diagram{margin-top:40px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(ellipse at center,#0c1420 0%,#07090F 72%);}
+  .expr-diagram svg{width:100%;height:auto;display:block;}
+  .expr-caption{margin-top:24px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.05em;color:var(--ink-faint);}
+
+  /* =======================================================================
+     PAGE 09 — FAILURE CASES
+  ======================================================================= */
+  .fail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:40px;}
+  @media (max-width:900px){ .fail-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .fail-grid{grid-template-columns:1fr;} }
+  .fail-cell{background:var(--navy);padding:28px 24px;display:flex;flex-direction:column;gap:14px;}
+  .fail-cell .x{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rose);display:flex;align-items:center;justify-content:center;color:var(--rose);font-family:'IBM Plex Mono',monospace;font-size:12px;flex:0 0 auto;}
+  .fail-cell .lab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);}
+  .fail-cell .t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);}
+  .fail-cell .r{font-size:13px;color:var(--ink-dim);line-height:1.5;}
+
+  /* =======================================================================
+     PAGE 10 — EVALUATION
+  ======================================================================= */
+  .checklist{margin-top:40px;border-top:1px solid var(--line);}
+  .chk-row{display:flex;align-items:center;gap:18px;padding:20px 4px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;}
+  .chk-row .box{flex:0 0 auto;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .25s;}
+  .chk-row .box svg{width:12px;height:12px;opacity:0;transition:opacity .2s;}
+  .chk-row.yes .box{border-color:var(--teal);background:rgba(63,201,174,.12);}
+  .chk-row.yes .box svg{opacity:1;}
+  .chk-row .q{font-family:'Space Grotesk',sans-serif;font-size:16.5px;color:var(--ink);}
+  .chk-row.yes .q{color:var(--ink-dim);}
+  .chk-foot{margin-top:26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+  .chk-foot .status{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
+  .chk-foot .status b{color:var(--teal);}
+  .chk-foot .refine{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--amber);letter-spacing:.04em;}
+
+  /* =======================================================================
+     PAGE 10 — CLOSING CONSTITUTION
+  ======================================================================= */
+  .closing{padding:170px 0 130px;text-align:left;position:relative;overflow:hidden;}
+  .closing-field{position:absolute;inset:0;z-index:0;opacity:.55;}
+  .closing .inner{position:relative;z-index:1;}
+  .closing .not-list{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint);letter-spacing:.03em;margin:26px 0 46px;}
+  .closing .not-list span{margin-right:14px;}
+  .closing h2{font-size:clamp(34px,5vw,58px);line-height:1.12;max-width:17ch;}
+  .closing h2 em{font-style:normal;color:var(--ink-faint);}
+  .closing .final{margin-top:60px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;border-top:1px solid var(--line);padding-top:30px;}
+  .closing .final .mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:var(--ink);}
+  .closing .final .ver{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);}
+  .permanence{margin-top:48px;padding-top:36px;border-top:1px solid var(--line);}
+  .pm{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(17px,2vw,21px);color:var(--ink-faint);margin-bottom:8px;}
+  .pm.strong{color:var(--ink);font-weight:700;margin-top:14px;}
+
+  /* =======================================================================
+     GLOBAL RULES APPENDIX
+  ======================================================================= */
+  .appendix{background:var(--charcoal);}
+  .gr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:44px;}
+  @media (max-width:1000px){ .gr-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .gr-grid{grid-template-columns:1fr;} }
+  .gr-cell{background:var(--navy);padding:26px 22px;}
+  .gr-cell .h{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+  .gr-cell ul{list-style:none;}
+  .gr-cell li{font-size:13px;color:var(--ink-dim);padding:5px 0;}
+
+  footer.end{padding:70px 0;text-align:center;}
+  footer.end p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.05em;}
+</style>
+</head>
+<body>
+
+<nav class="sysnav">
+  <span class="brand"><svg viewBox="0 0 40 40" id="navMark"></svg>Experience by Design</span>
+  <div class="idx" id="navIdx"></div>
+</nav>
+
+<!-- ============ PAGE 01 · HERO ============ -->
+<section class="hero" id="s01">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="n">01</span> Identity Constitution</span>
+      <h1>Complexity is inevitable.<br>Confusion is optional.</h1>
+      <p class="sub">Great experiences emerge through intentional relationships.</p>
+      <p>Experience by Design is the study of those relationships. It is a visual operating system built on one belief: independent ideas become more valuable once they connect with intention.</p>
+      <p class="bridge"><span class="arr">↓</span>Belief alone doesn't explain why this exists now.</p>
+    </div>
+    <div class="hero-stage" id="heroStage">
+      <svg viewBox="0 0 520 520" id="heroSvg" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+  <div class="scroll-note wrap"><span class="chev mono">↓</span> Scroll to discover the system</div>
+</section>
+
+<!-- ============ PAGE 02 · WHY ============ -->
+<section class="why" id="s02">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">02</span> Why</span>
+    <p class="lede rv rv2">Most identities begin with a logo. This one begins with a principle.</p>
+    <div class="body-col">
+      <p class="rv rv2">We believe design exists to reduce complexity without reducing meaning. Every decision should help people understand something more clearly than before.</p>
+      <p class="rv rv3">The identity is not an object. It is a system. Everything that follows is generated from one governing idea rather than a collection of visual preferences.</p>
+    </div>
+    <div class="pullquote rv rv4"><p>Meaning emerges through intentional relationships.</p></div>
+    <div class="why-now rv rv5">
+      <span class="mini-label">Why now</span>
+      <p class="wn-line">Enterprise software is becoming increasingly complex.</p>
+      <p class="wn-line">AI accelerates production, not coherence.</p>
+      <p class="wn-line">Teams build features. Systems create experiences.</p>
+      <p class="wn-line strong">Experience by Design exists to create coherence through intentional relationships.</p>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>If relationships create meaning, how are those relationships constructed?</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 03 · THE THEOREM ============ -->
+<section id="s03">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">03</span> The Theorem</span>
+    <div class="theorem-grid" style="margin-top:26px;">
+      <div class="theorem-copy rv rv2">
+        <p class="line">Everything begins with a primitive.</p>
+        <p class="line" style="color:var(--ink-dim);font-weight:500;">A primitive has no meaning.</p>
+        <div style="margin-top:20px;">
+          <p class="arrow-line">Primitive <span style="color:var(--teal)">→</span> Operation</p>
+          <p class="arrow-line">Operation <span style="color:var(--teal)">→</span> Relationship</p>
+          <p class="arrow-line">Relationship <span style="color:var(--teal)">→</span> Structure</p>
+          <p class="arrow-line">Structure <span style="color:var(--teal)">→</span> Meaning</p>
+          <p class="arrow-line">Meaning <span style="color:var(--teal)">→</span> Experience</p>
+        </div>
+      </div>
+      <div class="rv rv3">
+        <div class="theorem-stage">
+          <svg viewBox="0 0 480 360" id="theoremSvg"></svg>
+        </div>
+        <div class="theorem-steps" id="theoremSteps"></div>
+        <p class="theorem-caption">The identity is not drawn. <b>It is constructed.</b></p>
+      </div>
+    </div>
+    <div class="name-intro rv rv4">
+      <p>This construction has a name: the <b>Dual Arc</b>. Two equal fields, connected without enclosure. Every expression in this document is generated from it.</p>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>Construction only holds together if it follows rules.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 04 · IDENTITY GRAMMAR ============ -->
+<section id="s04">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">04</span> Identity Grammar</span>
+    <h2 class="kicker rv rv2">Explain the language. Not the logo.</h2>
+    <div class="grammar-top">
+      <p class="rv rv3"><b style="color:var(--ink)">Primitive</b>: every system begins with a simple element.</p>
+      <p class="rv rv3"><b style="color:var(--ink)">Operations</b>: only legitimate transformations are allowed.</p>
+    </div>
+    <div class="ops-grid rv rv3" id="opsGrid"></div>
+
+    <div class="why-rules rv rv4">
+      <span class="mini-label">Why these rules · read top to bottom, in construction order</span>
+      <div class="wr-seq" id="wrSeq"></div>
+    </div>
+
+    <div class="rulebox rv rv5">
+      <span class="k">Rule</span>
+      <p>If an expression cannot be explained through construction, it should not exist.</p>
+    </div>
+    <p class="rv rv5" style="margin-top:26px;max-width:46ch;font-size:15px;">Simple rules produce complex behaviour. The identity should always feel inevitable rather than designed.</p>
+    <div class="governance-line rv rv5">
+      <p>Every expression in this identity is the outcome of these seven rules. Nothing else is permitted.</p>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>Rules are not yet a philosophy. They need to be stated plainly.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 05 · IDENTITY CONSTITUTION (POSTER) ============ -->
+<section class="poster" id="s05">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">05</span> Identity Constitution</span>
+    <h2 class="kicker rv rv2">Minimal. Almost no illustrations.</h2>
+    <div class="poster-list" id="posterList"></div>
+    <p class="poster-foot rv">The philosophy is permanent. Expressions may evolve.</p>
+    <p class="bridge rv"><span class="arr">↓</span>A philosophy still has to look like something.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 06 · VISUAL LANGUAGE ============ -->
+<section id="s06">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">06</span> Visual Language</span>
+    <h2 class="kicker rv rv2">Typography carries meaning. Colour guides it.</h2>
+    <div class="vl-split">
+      <div class="rv rv3">
+        <div class="type-row sg">
+          <div class="sample">Aa · Space Grotesk</div>
+          <div class="meta"><span><b>Used for</b> thinking</span><span>Headlines</span><span>Editorial statements</span></div>
+        </div>
+        <div class="type-row in">
+          <div class="sample">Aa · Inter, used for reading</div>
+          <div class="meta"><span><b>Used for</b> reading</span><span>Body copy</span><span>Interface</span></div>
+        </div>
+        <div class="type-row mo">
+          <div class="sample">Aa · IBM Plex Mono</div>
+          <div class="meta"><span><b>Used only for</b> technical language</span><span>Construction</span><span>Measurements</span><span>Documentation</span></div>
+        </div>
+      </div>
+      <div class="rv rv4">
+        <div class="swatch-group">
+          <span class="lab">Primary</span>
+          <div class="swatches">
+            <div class="swatch"><div class="chip" style="background:#07090F;border-color:var(--line)"></div><div class="name">Deep Navy</div><div class="hex">#07090F</div></div>
+            <div class="swatch"><div class="chip" style="background:#14161B"></div><div class="name">Charcoal</div><div class="hex">#14161B</div></div>
+            <div class="swatch"><div class="chip" style="background:#F4F4F8"></div><div class="name">White</div><div class="hex">#F4F4F8</div></div>
+          </div>
+        </div>
+        <div class="swatch-group">
+          <span class="lab">Secondary</span>
+          <div class="swatches">
+            <div class="swatch"><div class="chip" style="background:#3FC9AE"></div><div class="name">Teal</div><div class="hex">#3FC9AE</div></div>
+            <div class="swatch"><div class="chip" style="background:#2FAE86"></div><div class="name">Emerald</div><div class="hex">#2FAE86</div></div>
+            <div class="swatch"><div class="chip" style="background:#4FD1E5"></div><div class="name">Cyan</div><div class="hex">#4FD1E5</div></div>
+          </div>
+        </div>
+        <div class="swatch-group">
+          <span class="lab">Accent · reserved for diagrams &amp; editorial emphasis</span>
+          <div class="swatches">
+            <div class="swatch"><div class="chip" style="background:#8B7CF6"></div><div class="name">Violet</div><div class="hex">#8B7CF6</div></div>
+            <div class="swatch"><div class="chip" style="background:#E3B45C"></div><div class="name">Amber</div><div class="hex">#E3B45C</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="principle-line rv rv5">
+      <span>Typography carries meaning.</span>
+      <span>Geometry supports meaning.</span>
+      <span>Colour guides meaning.</span>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>None of this holds still. It has to move.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 07 · MOTION ============ -->
+<section id="s07">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">07</span> Motion</span>
+    <h2 class="kicker rv rv2">Motion explains. It never entertains.</h2>
+    <div class="motion-seq rv rv3" id="motionSeq"></div>
+    <div class="motion-lower">
+      <div class="rv rv4">
+        <ul class="never-list">
+          <li class="lab">Never</li>
+          <li>Pulse</li><li>Fast spin</li><li>Glow</li><li>Bounce</li><li>Explode</li><li>Light radiate</li><li>Decorate</li>
+        </ul>
+        <div class="permit-note">
+          <span class="lab-ok">Permitted, in context</span>
+          <p><b>Slow drift</b>: a near-imperceptible rotation at rest, as used in the hero's breathing state.</p>
+          <p><b>Density radiate</b>: arc opacity thinning outward from a focal point, as used in large-scale patterns. This is structural, not decorative.</p>
+        </div>
+      </div>
+      <div class="rv rv5">
+        <div class="motion-stage"><svg viewBox="0 0 400 300" id="motionSvg"></svg><span class="motion-cap">Motion should feel architectural. Not technological.</span></div>
+      </div>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>Motion proves the construction works. So should everywhere else it appears.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 08 · EXPRESSIONS ============ -->
+<section id="s08">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">08</span> Expressions</span>
+    <h2 class="kicker rv rv2">Nine expressions, one source.</h2>
+    <p class="rv rv3" style="margin-top:18px;max-width:52ch;font-size:15px;">Every application below traces back to the same primary motif through the same construction grammar. This is proof, not a gallery.</p>
+    <div class="expr-diagram rv rv3">
+      <svg viewBox="0 0 900 780" id="exprDiagram" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <p class="expr-caption">One construction rule. Nine expressions. Infinite possibilities.</p>
+    <p class="bridge rv"><span class="arr">↓</span>Not every idea earns a place in that diagram.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 09 · FAILURE CASES ============ -->
+<section id="s09">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">09</span> Failure Cases</span>
+    <h2 class="kicker rv rv2">Good systems define failure as clearly as success.</h2>
+    <p class="rv rv3" style="margin-top:18px;max-width:48ch;font-size:15px;">Before anything enters the system, it is tested against this list. Any single failure is disqualifying.</p>
+    <div class="fail-grid rv rv3" id="failGrid"></div>
+    <p class="bridge rv"><span class="arr">↓</span>Passing the rejection list is the minimum. Passing every question below is the standard.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 10 · EVALUATION FRAMEWORK ============ -->
+<section id="s10">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">10</span> Evaluation Framework</span>
+    <h2 class="kicker rv rv2">Every design decision must answer these questions.</h2>
+    <p class="rv rv3" style="margin-top:18px;max-width:52ch;font-size:15px;">Every new visual asset should pass all eight questions before it becomes part of the system.</p>
+    <div class="checklist rv rv3" id="checklist"></div>
+    <div class="chk-foot rv rv4">
+      <span class="status">Passing <b id="chkCount">0 / 8</b></span>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>Method becomes discipline only once it is written down as rule.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 11 · OPERATING PRINCIPLES ============ -->
+<section class="appendix" id="s11">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="n">11</span> Operating Principles</span>
+    <h2 class="kicker rv rv2">The rules the system runs on.</h2>
+    <p class="rv rv3" style="margin-top:18px;max-width:52ch;font-size:15px;">Not supplementary. These are load-bearing: every page before this one was built inside them.</p>
+    <div class="gr-grid rv rv3">
+      <div class="gr-cell">
+        <div class="h">Layout</div>
+        <ul><li>12-column editorial grid</li><li>Generous whitespace</li><li>Large margins</li><li>Slow scrolling</li><li>Premium typography</li><li>Max width ~1200px</li></ul>
+      </div>
+      <div class="gr-cell">
+        <div class="h">Motion</div>
+        <ul><li>Construction-based only</li><li>No looping animation</li><li>Subtle breathing only</li><li>60fps</li><li>Slow easing</li><li>Calm transitions</li></ul>
+      </div>
+      <div class="gr-cell">
+        <div class="h">Never use</div>
+        <ul><li>Neon glow</li><li>Bloom</li><li>Floating particles</li><li>Lens flares</li><li>Sci-fi effects</li><li>AI-style node networks</li></ul>
+      </div>
+      <div class="gr-cell">
+        <div class="h">Always prefer</div>
+        <ul><li>Geometry</li><li>Overlap</li><li>Line weight</li><li>Rhythm</li><li>Negative space</li><li>Construction · reduction · restraint</li></ul>
+      </div>
+      <div class="gr-cell">
+        <div class="h">Emotional tone</div>
+        <ul><li>Calm</li><li>Curious</li><li>Thoughtful</li><li>Confident</li><li style="color:var(--ink-faint);text-decoration:line-through">Overwhelmed</li><li style="color:var(--ink-faint);text-decoration:line-through">Sold to</li></ul>
+      </div>
+    </div>
+    <p class="bridge rv"><span class="arr">↓</span>Everything before this is method. What remains is the constitution itself.</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 12 · THE CONSTITUTION ============ -->
+<section class="closing" id="s12">
+  <svg class="closing-field" id="closingField" viewBox="0 0 1280 700" preserveAspectRatio="xMidYMid slice"></svg>
+  <div class="wrap inner">
+    <span class="eyebrow rv"><span class="n">12</span> The Constitution</span>
+    <div class="not-list rv rv2"><span>Not decoration.</span><span>Not trends.</span><span>Not novelty.</span></div>
+    <h2 class="rv rv3">The identity is generated through relationships. Every visual decision should make complexity easier to understand.</h2>
+    <p class="rv rv4" style="margin-top:24px;max-width:44ch;font-size:16px;">Because great experiences are rarely invented. They are <em style="font-style:normal;color:var(--ink)">intentionally designed.</em></p>
+    <div class="permanence rv rv5">
+      <p class="pm">The identity is not the logo.</p>
+      <p class="pm">The identity is not the motif.</p>
+      <p class="pm">The identity is not today's visuals.</p>
+      <p class="pm strong">The philosophy remains.</p>
+      <p class="pm strong">The expressions evolve.</p>
+    </div>
+    <div class="final rv">
+      <span class="mark">Experience by Design</span>
+      <span class="ver mono">Dual Arc · Identity Constitution</span>
+    </div>
+  </div>
+</section>
+
+<footer class="end"><p>Experience by Design · Identity Constitution · Generated from one construction rule.</p></footer>
+
+<script>
+/* =====================================================================
+   CORE GRAMMAR — the single construction rule the whole system derives from
+   (carried forward from the A1.7 Dual Arc concept board)
+===================================================================== */
+const NS='http://www.w3.org/2000/svg';
+function E(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,String(a[k]));return e;}
+const cornersOf=(cx,cy,R,rot=0)=>{const c=[];for(let k=0;k<4;k++){const a=rot+Math.PI/4+k*Math.PI/2;c.push([cx+R*Math.cos(a),cy+R*Math.sin(a)]);}return c;};
+function arcSegs(cx,cy,R,concavFrac,rot=0){
+  const C=cornersOf(cx,cy,R,rot), cc=R*concavFrac, segs=[];
+  for(let i=0;i<4;i++){const A=C[i],B=C[(i+1)%4];const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2;
+    let dx=cx-mx,dy=cy-my;const d=Math.hypot(dx,dy)||1;dx/=d;dy/=d;
+    const P=[mx+dx*2*cc,my+dy*2*cc];
+    segs.push(`M${A[0].toFixed(2)},${A[1].toFixed(2)} Q${P[0].toFixed(2)},${P[1].toFixed(2)} ${B[0].toFixed(2)},${B[1].toFixed(2)}`);}
+  return {segs,C};
+}
+function drawMark(g,o){
+  const {cx,cy,R}=o, concav=o.concav??0.30, rot=o.rot??0, stroke=o.stroke??'#F4F4F8',
+        w=o.w??1.6, op=o.op??1, whisk=o.whisk??0, whiskOp=o.whiskOp??0.45, guides=o.guides??0;
+  if(guides>0){
+    cornersOf(cx,cy,R,rot).forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:R*0.92,fill:'none',stroke,'stroke-width':w*0.6,'stroke-opacity':guides,'stroke-dasharray':'2 5'})));
+  }
+  const {segs,C}=arcSegs(cx,cy,R,concav,rot);
+  segs.forEach(d=>g.appendChild(E('path',{d,fill:'none',stroke,'stroke-width':w,'stroke-opacity':op,'stroke-linecap':'round','stroke-linejoin':'round'})));
+  if(whisk>0){C.forEach(p=>{let dx=p[0]-cx,dy=p[1]-cy;const dd=Math.hypot(dx,dy)||1;dx/=dd;dy/=dd;
+    g.appendChild(E('line',{x1:p[0],y1:p[1],x2:p[0]+dx*whisk,y2:p[1]+dy*whisk,stroke,'stroke-width':w,'stroke-opacity':whiskOp,'stroke-linecap':'round'}));});}
+  C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:w*0.9,fill:stroke,'fill-opacity':op})));
+  return C;
+}
+const G=svg=>{const g=E('g',{});svg.appendChild(g);return g;};
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- tiny brand mark in nav ---- */
+drawMark(G(document.getElementById('navMark')),{cx:20,cy:20,R:12,concav:.3,stroke:'#F4F4F8',w:1.4,whisk:3.5,whiskOp:.5});
+
+/* =====================================================================
+   NAV INDEX
+===================================================================== */
+(function(){
+  const ids=['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12'];
+  const host=document.getElementById('navIdx');
+  ids.forEach((id,i)=>{const b=document.createElement('button');b.dataset.t=id;b.title='0'+(i+1);
+    b.onclick=()=>document.getElementById(id).scrollIntoView({behavior:REDUCED?'auto':'smooth'});host.appendChild(b);});
+  const btns=[...host.children];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){const idx=ids.indexOf(e.target.id);btns.forEach(b=>b.classList.remove('on'));if(btns[idx])btns[idx].classList.add('on');}});
+  },{threshold:.5});
+  ids.forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el);});
+})();
+
+/* =====================================================================
+   SCROLL REVEAL
+===================================================================== */
+(function(){
+  const els=document.querySelectorAll('.rv');
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.18});
+  els.forEach(el=>io.observe(el));
+})();
+
+/* =====================================================================
+   PAGE 01 · HERO — construction reveal, once, then idle breathing
+===================================================================== */
+(function(){
+  const svg=document.getElementById('heroSvg');
+  const cx=260,cy=260,R=150;
+  const gGuides=G(svg), gPts=G(svg), gAxes=G(svg), gArcs=G(svg), gWhisk=G(svg);
+  const C=cornersOf(cx,cy,R,0);
+  C.forEach(p=>gGuides.appendChild(E('circle',{cx:p[0],cy:p[1],r:R*0.92,fill:'none',stroke:'rgba(244,244,248,.4)','stroke-width':1,'stroke-dasharray':'2 6','stroke-opacity':0})));
+  C.forEach(p=>gPts.appendChild(E('circle',{cx:p[0],cy:p[1],r:3,fill:'#F4F4F8','fill-opacity':0})));
+  const axPaths=[[C[0],C[2]],[C[1],C[3]]].map(([a,b])=>{const p=E('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'rgba(244,244,248,.5)','stroke-width':1,'stroke-opacity':0});gAxes.appendChild(p);return p;});
+  const {segs}=arcSegs(cx,cy,R,.30,0);
+  const arcPaths=segs.map((d,i)=>{const p=E('path',{d,fill:'none',stroke:'#F4F4F8','stroke-width':2,'stroke-linecap':'round',opacity:0});gArcs.appendChild(p);
+    const L=280;p.style.strokeDasharray=L;p.style.strokeDashoffset=L;p.dataset.len=L;
+    p.style.transition='stroke-dashoffset 1.3s cubic-bezier(.22,.61,.36,1), opacity .5s ease';p.style.transitionDelay=(i*.18)+'s';return p;});
+  const whPaths=C.map(p=>{let dx=p[0]-cx,dy=p[1]-cy;const dd=Math.hypot(dx,dy)||1;dx/=dd;dy/=dd;
+    const ln=E('line',{x1:p[0],y1:p[1],x2:p[0]+dx*R*.4,y2:p[1]+dy*R*.4,stroke:'#3FC9AE','stroke-width':1.6,'stroke-linecap':'round','stroke-opacity':0});gWhisk.appendChild(ln);return ln;});
+
+  function toStage(n,animate){
+    [...gGuides.children,...gPts.children].forEach(e=>e.style.transition=animate?'stroke-opacity .7s ease, fill-opacity .7s ease':'none');
+    axPaths.forEach(e=>e.style.transition=animate?'stroke-dashoffset 1s ease, stroke-opacity .5s ease':'none');
+    whPaths.forEach(e=>e.style.transition=animate?'stroke-opacity .7s ease':'none');
+    [...gGuides.children].forEach(e=>e.setAttribute('stroke-opacity',n>=1?.5:0));
+    [...gPts.children].forEach(e=>e.setAttribute('fill-opacity',n>=2?.9:0));
+    axPaths.forEach(p=>{p.style.strokeDasharray=260;p.style.strokeDashoffset=n>=3?0:260;p.setAttribute('stroke-opacity',n>=3?.55:0);});
+    arcPaths.forEach(p=>{p.style.opacity=n>=4?1:0;p.style.strokeDashoffset=n>=4?0:p.dataset.len;});
+    whPaths.forEach(p=>p.setAttribute('stroke-opacity',n>=5?.55:0));
+  }
+  function breathe(){
+    gWhisk.style.transition='opacity 2.6s ease-in-out';
+    gWhisk.style.opacity='.35';
+    setTimeout(()=>{gWhisk.style.opacity='1';},2600);
+  }
+  if(REDUCED){ toStage(5,false); }
+  else{
+    setTimeout(()=>toStage(1,true),260);
+    setTimeout(()=>toStage(2,true),700);
+    setTimeout(()=>toStage(3,true),1200);
+    setTimeout(()=>toStage(4,true),1900);
+    setTimeout(()=>toStage(5,true),3000);
+    setInterval(breathe,12000);
+  }
+})();
+
+/* =====================================================================
+   PAGE 03 · THE THEOREM — interactive stepper
+===================================================================== */
+(function(){
+  const svg=document.getElementById('theoremSvg');
+  const cx=240,cy=180,R=110;
+  const STEPS=['Point','Circle','Intersection','New Centres','Connections','Reduction','Dual Arc'];
+  const stepsHost=document.getElementById('theoremSteps');
+  STEPS.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s;b.dataset.i=i+1;b.onclick=()=>render(i+1,true);stepsHost.appendChild(b);});
+  const btns=[...stepsHost.children];
+
+  function render(n,userTriggered){
+    svg.innerHTML='';
+    const g=G(svg);
+    const C=cornersOf(cx,cy,R,0);
+    // step 1 — point
+    g.appendChild(E('circle',{cx,cy,r:3.4,fill:'#F4F4F8'}));
+    if(n===1){ btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return; }
+    // step 2 — circle
+    g.appendChild(E('circle',{cx,cy,r:R,fill:'none',stroke:'rgba(244,244,248,.55)','stroke-width':1.2,'stroke-dasharray':'3 6'}));
+    if(n===2){ btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return; }
+    // step 3 — intersection (four guide circles)
+    C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:R*.92,fill:'none',stroke:'rgba(244,244,248,.32)','stroke-width':1,'stroke-dasharray':'2 6'})));
+    if(n===3){ btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return; }
+    // step 4 — new centres (corner points highlighted)
+    C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:5,fill:'#3FC9AE'})));
+    if(n===4){ btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return; }
+    // step 5 — connections (straight square edges)
+    C.forEach((p,i)=>{const q=C[(i+1)%4];g.appendChild(E('line',{x1:p[0],y1:p[1],x2:q[0],y2:q[1],stroke:'#8B7CF6','stroke-width':1.4,'stroke-opacity':.75}));});
+    C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:4,fill:'#8B7CF6'})));
+    if(n===5){ btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return; }
+    // step 6 — reduction (straight fades, arcs emerge)
+    const {segs}=arcSegs(cx,cy,R,.30,0);
+    if(n===6){
+      C.forEach((p,i)=>{const q=C[(i+1)%4];g.appendChild(E('line',{x1:p[0],y1:p[1],x2:q[0],y2:q[1],stroke:'#8B7CF6','stroke-width':1.2,'stroke-opacity':.25}));});
+      segs.forEach(d=>g.appendChild(E('path',{d,fill:'none',stroke:'#F4F4F8','stroke-width':2,'stroke-opacity':.65,'stroke-linecap':'round'})));
+      C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:3,fill:'#F4F4F8','fill-opacity':.65})));
+      btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n)); return;
+    }
+    // step 7 — dual arc, final
+    segs.forEach(d=>g.appendChild(E('path',{d,fill:'none',stroke:'#F4F4F8','stroke-width':2.2,'stroke-linecap':'round'})));
+    C.forEach(p=>g.appendChild(E('circle',{cx:p[0],cy:p[1],r:3,fill:'#F4F4F8'})));
+    btns.forEach(b=>b.classList.toggle('on',+b.dataset.i===n));
+  }
+
+  let step=1,timer=null;
+  render(1);
+  function autoplay(){
+    if(REDUCED){ render(7); return; }
+    timer=setInterval(()=>{ step++; if(step>7){ clearInterval(timer); return;} render(step); },850);
+  }
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){autoplay();io.disconnect();}});},{threshold:.4});
+  io.observe(document.getElementById('s03'));
+  stepsHost.addEventListener('click',()=>{ if(timer) clearInterval(timer); });
+})();
+
+/* =====================================================================
+   PAGE 04 · IDENTITY GRAMMAR — operations grid
+===================================================================== */
+(function(){
+  const ops=[
+    ['Position','Where an element sits.'],
+    ['Alignment','How elements share an axis.'],
+    ['Intersection','Where circles create new points.'],
+    ['Reflection','Mirrored, not duplicated.'],
+    ['Rotation','The same form, turned.'],
+    ['Repetition','One rule, applied again.'],
+    ['Reduction','Enclosure removed.'],
+    ['Emergence','Meaning that was not drawn.'],
+  ];
+  const host=document.getElementById('opsGrid');
+  ops.forEach((o,i)=>{
+    const cell=document.createElement('div');cell.className='op-cell';
+    const svg=E('svg',{viewBox:'0 0 40 40'});
+    const g=G(svg);
+    const R=13;
+    if(o[0]==='Position') g.appendChild(E('circle',{cx:20,cy:20,r:3,fill:'#F4F4F8'}));
+    else if(o[0]==='Alignment') { g.appendChild(E('line',{x1:6,y1:20,x2:34,y2:20,stroke:'#F4F4F8','stroke-width':1,'stroke-opacity':.4}));[10,20,30].forEach(x=>g.appendChild(E('circle',{cx:x,cy:20,r:2.4,fill:'#F4F4F8'}))); }
+    else if(o[0]==='Intersection'){ g.appendChild(E('circle',{cx:16,cy:20,r:11,fill:'none',stroke:'#F4F4F8','stroke-width':1,'stroke-opacity':.6}));g.appendChild(E('circle',{cx:24,cy:20,r:11,fill:'none',stroke:'#3FC9AE','stroke-width':1,'stroke-opacity':.8})); }
+    else if(o[0]==='Reflection'){ g.appendChild(E('line',{x1:20,y1:6,x2:20,y2:34,stroke:'#F4F4F8','stroke-width':1,'stroke-dasharray':'2 3','stroke-opacity':.4}));g.appendChild(E('path',{d:'M20,12 Q12,20 20,28',fill:'none',stroke:'#F4F4F8','stroke-width':1.4}));g.appendChild(E('path',{d:'M20,12 Q28,20 20,28',fill:'none',stroke:'#8B7CF6','stroke-width':1.4})); }
+    else if(o[0]==='Rotation'){ drawMark(g,{cx:20,cy:20,R:12,concav:.3,stroke:'#F4F4F8',w:1.1,op:.85,rot:Math.PI/6}); }
+    else if(o[0]==='Repetition'){ [[12,16],[28,16],[12,28],[28,28]].forEach(([x,y])=>g.appendChild(E('circle',{cx:x,cy:y,r:2.2,fill:'#F4F4F8','fill-opacity':.8}))); }
+    else if(o[0]==='Reduction'){ g.appendChild(E('path',{d:'M8,14 Q20,4 32,14',fill:'none',stroke:'#F4F4F8','stroke-width':1,'stroke-opacity':.3}));g.appendChild(E('path',{d:'M8,26 Q20,32 32,26',fill:'none',stroke:'#3FC9AE','stroke-width':1.4})); }
+    else { drawMark(g,{cx:20,cy:20,R:12,concav:.3,stroke:'#E3B45C',w:1.2,whisk:4,whiskOp:.6}); }
+    cell.appendChild(svg);
+    const k=document.createElement('span');k.className='k';k.textContent='OP·'+String(i+1).padStart(2,'0');
+    const t=document.createElement('span');t.className='t';t.textContent=o[0];
+    cell.appendChild(k);cell.appendChild(t);
+    host.appendChild(cell);
+  });
+})();
+
+/* =====================================================================
+   PAGE 04 · WHY THESE RULES — sequence, each with its own diagram
+===================================================================== */
+(function(){
+  function iconCircle(svg){const g=G(svg);g.appendChild(E('circle',{cx:20,cy:20,r:13,fill:'none',stroke:'#F4F4F8','stroke-width':1.3,'stroke-opacity':.85}));}
+  function iconEqual(svg){const g=G(svg);
+    g.appendChild(E('circle',{cx:14,cy:13,r:8,fill:'none',stroke:'#F4F4F8','stroke-width':1,'stroke-opacity':.55}));
+    g.appendChild(E('circle',{cx:23,cy:13,r:8,fill:'none',stroke:'#3FC9AE','stroke-width':1,'stroke-opacity':.9}));
+    g.appendChild(E('circle',{cx:13,cy:30,r:4,fill:'none',stroke:'#F0679F','stroke-width':.8,'stroke-opacity':.55}));
+    g.appendChild(E('circle',{cx:25,cy:30,r:7,fill:'none',stroke:'#F0679F','stroke-width':.8,'stroke-opacity':.55}));
+    g.appendChild(E('line',{x1:6,y1:34,x2:32,y2:25,stroke:'#F0679F','stroke-width':1,'stroke-opacity':.65}));}
+  function iconOverlap(svg){const g=G(svg);g.appendChild(E('circle',{cx:16,cy:20,r:11,fill:'none',stroke:'#F4F4F8','stroke-width':1,'stroke-opacity':.5}));g.appendChild(E('circle',{cx:24,cy:20,r:11,fill:'none',stroke:'#3FC9AE','stroke-width':1,'stroke-opacity':.9}));}
+  function iconCurve(svg){const g=G(svg);g.appendChild(E('line',{x1:8,y1:24,x2:32,y2:24,stroke:'#F4F4F8','stroke-width':1,'stroke-dasharray':'2 3','stroke-opacity':.32}));g.appendChild(E('path',{d:'M8,24 Q20,10 32,24',fill:'none',stroke:'#3FC9AE','stroke-width':1.6,'stroke-linecap':'round'}));[8,32].forEach(x=>g.appendChild(E('circle',{cx:x,cy:24,r:1.8,fill:'#F4F4F8'})));}
+  function iconSymmetry(svg){const g=G(svg);g.appendChild(E('line',{x1:20,y1:6,x2:20,y2:34,stroke:'#F4F4F8','stroke-width':1,'stroke-dasharray':'2 3','stroke-opacity':.32}));g.appendChild(E('path',{d:'M20,12 Q12,20 20,28',fill:'none',stroke:'#F4F4F8','stroke-width':1.4,'stroke-opacity':.85}));g.appendChild(E('path',{d:'M20,12 Q28,20 20,28',fill:'none',stroke:'#8B7CF6','stroke-width':1.4}));}
+  function iconReduction(svg){const g=G(svg);g.appendChild(E('circle',{cx:20,cy:20,r:13,fill:'none',stroke:'#F4F4F8','stroke-width':1,'stroke-dasharray':'2 4','stroke-opacity':.26}));g.appendChild(E('path',{d:'M9,24 Q20,32 31,24',fill:'none',stroke:'#3FC9AE','stroke-width':1.8,'stroke-linecap':'round'}));}
+  function iconRestraint(svg){const g=G(svg);drawMark(g,{cx:20,cy:20,R:13,concav:.3,stroke:'#F4F4F8',w:1.3,op:1,whisk:0});}
+
+  const WR=[
+    ['Why circles?','A circle has no direction and no hierarchy. Every point on it is equal, which makes it the only honest starting primitive.',iconCircle],
+    ['Why equal circles, not golden ratio?','A golden-ratio pair scales one circle from the other, which makes a first and a second. Equal radius keeps both fields as mutual partners, which is what "Dual" actually means.',iconEqual],
+    ['Why overlap?','Two independent fields only become meaningful once they touch. Overlap is where relationship becomes visible.',iconOverlap],
+    ['Why curves?','A straight connection states a fact. A curve holds tension: two things reaching toward each other, not simply touching.',iconCurve],
+    ['Why symmetry?','Symmetry signals that no side dominates. The relationship is mutual, not one thing acting on another.',iconSymmetry],
+    ['Why reduction?','Enclosure adds weight without adding meaning. Removing it leaves only what the relationship actually requires.',iconReduction],
+    ['Why restraint?','Anything decorative competes with the relationship itself. Restraint keeps the construction, not the decoration, doing the work.',iconRestraint],
+  ];
+  const host=document.getElementById('wrSeq');
+  WR.forEach((item,i)=>{
+    const row=document.createElement('div');row.className='wr-row';
+    const iconCol=document.createElement('div');iconCol.className='wr-icon-col';
+    const svg=E('svg',{viewBox:'0 0 40 40'});
+    item[2](svg);
+    const num=document.createElement('span');num.className='num mono';num.textContent=String(i+1).padStart(2,'0');
+    iconCol.appendChild(svg);iconCol.appendChild(num);
+    if(i<WR.length-1){const conn=document.createElement('div');conn.className='wr-connector';iconCol.appendChild(conn);}
+    const text=document.createElement('div');text.className='wr-text';
+    text.innerHTML=`<span class="q">${item[0]}</span><span class="a">${item[1]}</span>`;
+    row.appendChild(iconCol);row.appendChild(text);
+    host.appendChild(row);
+  });
+})();
+
+/* =====================================================================
+   PAGE 05 · CONSTITUTION POSTER — value pairs
+===================================================================== */
+(function(){
+  const pairs=[
+    ['Purpose','before aesthetics'],['Construction','before decoration'],['Relationships','before objects'],
+    ['Systems','before artifacts'],['Restraint','before expression'],['Clarity','before novelty'],
+    ['Light','through overlap'],['Motion','reveals construction'],
+  ];
+  const host=document.getElementById('posterList');
+  pairs.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='poster-row rv'+(i%3?(' rv'+((i%4)+1)):'');
+    row.innerHTML=`<span class="i mono">${String(i+1).padStart(2,'0')}</span><span class="a">${p[0]}<em>${p[1]}</em></span>`;
+    host.appendChild(row);
+  });
+  const row=document.createElement('div');row.className='poster-row rv';
+  row.innerHTML=`<span class="i mono">09</span><span class="a" style="color:var(--ink)">Everything unnecessary <em>is removed</em></span>`;
+  host.appendChild(row);
+  // late-added rows need their own observer since created after initial scan
+  new IntersectionObserver((es,ob)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target);}})},{threshold:.2})
+    .observe ? [...host.children].forEach(r=>{
+      const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.disconnect();}}),{threshold:.15});
+      io.observe(r);
+    }) : null;
+})();
+
+/* =====================================================================
+   PAGE 07 · MOTION SEQUENCE + embedded construction loop
+===================================================================== */
+(function(){
+  const seq=['Reveal','Align','Intersect','Resolve','Rest'];
+  const host=document.getElementById('motionSeq');
+  seq.forEach((s,i)=>{
+    const b=document.createElement('span');b.className='motion-step mono';b.textContent=s;host.appendChild(b);
+    if(i<seq.length-1){const a=document.createElement('span');a.className='motion-arrow';a.textContent='→';host.appendChild(a);}
+  });
+
+  const svg=document.getElementById('motionSvg');
+  const cx=200,cy=150,R=86;
+  const gA=G(svg),gB=G(svg);
+  cornersOf(cx,cy,R,0).forEach(p=>gA.appendChild(E('circle',{cx:p[0],cy:p[1],r:R*.92,fill:'none',stroke:'rgba(244,244,248,.3)','stroke-width':1,'stroke-dasharray':'2 6','stroke-opacity':0})));
+  const {segs}=arcSegs(cx,cy,R,.3,0);
+  const arcs=segs.map((d,i)=>{const p=E('path',{d,fill:'none',stroke:'#3FC9AE','stroke-width':2,'stroke-linecap':'round',opacity:0});gB.appendChild(p);
+    p.style.strokeDasharray=260;p.style.strokeDashoffset=260;p.style.transition='stroke-dashoffset 1.2s ease, opacity .5s ease';p.style.transitionDelay=(i*.15)+'s';return p;});
+
+  function play(){
+    [...gA.children].forEach(e=>{e.style.transition='stroke-opacity .8s ease';e.setAttribute('stroke-opacity',.5);});
+    setTimeout(()=>arcs.forEach(p=>{p.style.opacity=1;p.style.strokeDashoffset=0;}),700);
+    setTimeout(()=>{[...gA.children].forEach(e=>e.setAttribute('stroke-opacity',0));},3200);
+    setTimeout(()=>arcs.forEach(p=>{p.style.transition='none';p.style.opacity=0;p.style.strokeDashoffset=260;}),3800);
+  }
+  if(REDUCED){ [...gA.children].forEach(e=>e.setAttribute('stroke-opacity',.4)); arcs.forEach(p=>{p.style.opacity=1;p.style.strokeDashoffset=0;}); }
+  else{
+    let started=false;
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!started){started=true;play();setInterval(play,4200);}}),{threshold:.4});
+    io.observe(document.getElementById('s07'));
+  }
+})();
+
+/* =====================================================================
+   PAGE 08 · EXPRESSIONS — branching diagram from the primary motif
+===================================================================== */
+(function(){
+  function nodePattern(g){
+    drawMark(g,{cx:0,cy:0,R:10,concav:.3,stroke:'#F4F4F8',w:.9,op:.9});
+    for(let k=0;k<6;k++){const a=k*Math.PI/3,x=17*Math.cos(a),y=17*Math.sin(a);
+      drawMark(g,{cx:x,cy:y,R:6,concav:.3,stroke:'#F4F4F8',w:.6,op:.32});}
+  }
+  function nodeMotion(g){
+    drawMark(g,{cx:0,cy:0,R:15,concav:.3,stroke:'#3FC9AE',w:1.3,op:.95});
+    g.appendChild(E('circle',{cx:0,cy:0,r:23,fill:'none',stroke:'#3FC9AE','stroke-width':.7,'stroke-opacity':.3,'stroke-dasharray':'2 4'}));
+  }
+  function nodeHero(g){ drawMark(g,{cx:0,cy:0,R:16,concav:.3,stroke:'#F4F4F8',w:1.3,op:.95,whisk:7,whiskOp:.32}); }
+  function nodeDivider(g){ for(let x=-24;x<=24;x+=12) drawMark(g,{cx:x,cy:0,R:6,concav:.3,stroke:'#F4F4F8',w:.6,op:.5}); }
+  function nodeLoading(g){
+    drawMark(g,{cx:0,cy:0,R:14,concav:.3,stroke:'#F4F4F8',w:1.4,op:.7});
+    g.appendChild(E('circle',{cx:0,cy:0,r:21,fill:'none',stroke:'#F4F4F8','stroke-width':.7,'stroke-opacity':.22,'stroke-dasharray':'3 5'}));
+  }
+  function nodePresentation(g){
+    drawMark(g,{cx:-7,cy:0,R:12,concav:.3,stroke:'#F4F4F8',w:1,op:.85});
+    g.appendChild(E('rect',{x:7,y:-9,width:19,height:4,fill:'#F4F4F8',opacity:.28}));
+    g.appendChild(E('rect',{x:7,y:0,width:13,height:4,fill:'#F4F4F8',opacity:.18}));
+  }
+  function nodeCaseStudy(g){ drawMark(g,{cx:0,cy:0,R:16,concav:.3,stroke:'#F4F4F8',w:1,op:.6,guides:.16}); }
+  function nodeFavicon(g){ drawMark(g,{cx:0,cy:0,R:13,concav:.3,stroke:'#F4F4F8',w:2.1,op:1}); }
+  function nodeCover(g){
+    drawMark(g,{cx:-8,cy:0,R:12,concav:.3,stroke:'#F4F4F8',w:1,op:.85});
+    for(let x=6;x<=24;x+=6) g.appendChild(E('line',{x1:x,y1:9,x2:x+2,y2:9,stroke:'#F4F4F8',opacity:.16}));
+  }
+
+  const SPOKES=[
+    ['Pattern',nodePattern],['Motion',nodeMotion],['Hero',nodeHero],
+    ['Divider',nodeDivider],['Loading',nodeLoading],['Presentation',nodePresentation],
+    ['Case study',nodeCaseStudy],['Favicon',nodeFavicon],['Cover',nodeCover],
+  ];
+
+  const svg=document.getElementById('exprDiagram');
+  const g=G(svg);
+  const cx=450,cy=390,R=270;
+
+  const centerG=E('g',{transform:`translate(${cx},${cy})`});g.appendChild(centerG);
+  drawMark(centerG,{cx:0,cy:0,R:52,concav:.3,stroke:'#F4F4F8',w:1.8,op:1,whisk:18,whiskOp:.35,guides:.1});
+  const cLab1=E('text',{x:0,y:88,'text-anchor':'middle','font-family':"'IBM Plex Mono',monospace",'font-size':11,fill:'rgba(244,244,248,.5)','letter-spacing':'.08em'});
+  cLab1.textContent='PRIMARY MOTIF';centerG.appendChild(cLab1);
+  const cLab2=E('text',{x:0,y:-72,'text-anchor':'middle','font-family':"'Space Grotesk',sans-serif",'font-weight':700,'font-size':17,fill:'#3FC9AE'});
+  cLab2.textContent='Dual Arc';centerG.appendChild(cLab2);
+
+  SPOKES.forEach((sp,i)=>{
+    const angle=(-90+i*40)*Math.PI/180;
+    const nx=cx+R*Math.cos(angle), ny=cy+R*Math.sin(angle);
+    g.appendChild(E('line',{x1:cx,y1:cy,x2:nx,y2:ny,stroke:'#3FC9AE','stroke-width':1,'stroke-opacity':.28,'stroke-dasharray':'2 6'}));
+    const ng=E('g',{transform:`translate(${nx},${ny})`});g.appendChild(ng);
+    sp[1](ng);
+    const labelR=R+56, lx=cx+labelR*Math.cos(angle), ly=cy+labelR*Math.sin(angle);
+    const cosA=Math.cos(angle), anchor=cosA>0.35?'start':cosA<-0.35?'end':'middle';
+    const label=E('text',{x:lx,y:ly,'text-anchor':anchor,'font-family':"'IBM Plex Mono',monospace",'font-size':12,fill:'rgba(244,244,248,.65)'});
+    label.textContent=sp[0];g.appendChild(label);
+  });
+})();
+
+/* =====================================================================
+   PAGE 09 · FAILURE CASES
+===================================================================== */
+(function(){
+  const fails=[
+    ['Decorative','Added to make it look finished, not to carry meaning.'],
+    ['Trend-driven','Explained by a moment, not by the construction.'],
+    ['Cannot be constructed','No sequence of legal operations produces it.'],
+    ["Doesn't reduce",'Still needs the enclosure to make sense.'],
+    ["Doesn't scale",'Breaks down at a size or context it wasn\u2019t drawn for.'],
+    ["Doesn't communicate relationships",'Reads as a shape, not a connection.'],
+  ];
+  const host=document.getElementById('failGrid');
+  fails.forEach(f=>{
+    const cell=document.createElement('div');cell.className='fail-cell';
+    cell.innerHTML=`<span class="x">✕</span><span class="lab">Rejected</span><span class="t">${f[0]}</span><span class="r">${f[1]}</span>`;
+    host.appendChild(cell);
+  });
+})();
+
+/* =====================================================================
+   PAGE 10 · EVALUATION CHECKLIST
+===================================================================== */
+(function(){
+  const qs=[
+    'Does it communicate relationships?',
+    'Can it survive reduction?',
+    'Is it recognisable in monochrome?',
+    'Does it generate a system?',
+    'Does it remove unnecessary complexity?',
+    'Would it still feel contemporary in ten years?',
+    'Does it belong only to Experience by Design?',
+    'Would another designer understand how it was made?',
+  ];
+  const host=document.getElementById('checklist');
+  const counter=document.getElementById('chkCount');
+  function updateCount(){
+    const yes=host.querySelectorAll('.chk-row.yes').length;
+    counter.textContent=yes+' / '+qs.length;
+  }
+  qs.forEach(q=>{
+    const row=document.createElement('div');row.className='chk-row';
+    row.innerHTML=`<span class="box"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8" fill="none" stroke="#3FC9AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="q">${q}</span>`;
+    row.onclick=()=>{row.classList.toggle('yes');updateCount();};
+    host.appendChild(row);
+  });
+})();
+
+/* =====================================================================
+   PAGE 10 · CLOSING FIELD
+===================================================================== */
+(function(){
+  const g=G(document.getElementById('closingField'));
+  const fx=880,fy=260;
+  for(let x=60;x<=1220;x+=100)for(let y=30;y<=670;y+=100){
+    const t=Math.max(0,1-Math.hypot(x-fx,y-fy)/620); if(t<0.03) continue;
+    if(t<0.28 && ((x/100+y/100)%2===0)) continue;
+    drawMark(g,{cx:x,cy:y,R:22+t*30,concav:.3,stroke:'#DCE3EE',w:.8,op:.05+t*.24,whisk:10,whiskOp:t*.35});
+  }
+})();
+</script>
+</body>
+</html>
