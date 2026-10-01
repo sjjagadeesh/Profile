@@ -168,9 +168,23 @@
     });
   }
 
+  function safeBuildNav(){
+    // Guard: if this script ever ends up loaded twice on one page
+    // (duplicate <script> tag, accidental re-include), don't inject
+    // a second nav or attach duplicate listeners over the first.
+    if (document.querySelector('.site-nav')) return;
+    try {
+      buildNav();
+    } catch (err) {
+      // Fail loud in the console rather than silently leaving the
+      // page with no working navigation and no clue why.
+      if (window.console && console.error) console.error('nav.js failed to initialize:', err);
+    }
+  }
+
   if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', buildNav);
+    document.addEventListener('DOMContentLoaded', safeBuildNav);
   } else {
-    buildNav();
+    safeBuildNav();
   }
 })();
