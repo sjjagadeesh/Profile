@@ -12,6 +12,7 @@
 
   var SECTION_LINKS = [
     { href: 'index.html#work', label: 'Work' },
+    { href: 'experience-by-design.html', label: 'Writing' },
     { href: 'index.html#journey', label: 'Journey' },
     { href: 'index.html#contact', label: 'Contact' }
   ];
@@ -69,7 +70,7 @@
     nav.className = 'site-nav';
 
     var caseLinksHTML = CASE_STUDIES.map(function(c){ return linkHTML(c, current, true); }).join('');
-    var sectionLinksHTML = SECTION_LINKS.map(function(s){ return linkHTML(s, current, false); }).join('');
+    var sectionLinksHTML = SECTION_LINKS.map(function(s){ return linkHTML(s, current, s.href.indexOf('#') === -1); }).join('');
 
     nav.innerHTML =
       '<div class="site-nav-wrap">' +

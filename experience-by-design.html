@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('siteTheme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2307090F'/%3E%3Cg transform='translate(50,50) scale(0.32)'%3E%3Cpath d='M 0,-100 C 0,-62.51 62.51,0 100,0 C 62.51,0 0,62.51 0,100 C 0,62.51 -62.51,0 -100,0 C -62.51,0 0,-62.51 0,-100 Z' fill='none' stroke='%233FC9AE' stroke-width='20'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience by Design: 30 Episodes on Enterprise UX | Jagadeesh SJ</title>
+<meta name="description" content="Season 1 of Experience by Design: 30 episodes on enterprise UX, design systems, governance and AI, written from years of shipping at scale.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+  :root{
+    --ink:#0B0E23;
+    --ink-2:#141936;
+    --paper:#F7F7FB;
+    --paper-2:#FFFFFF;
+    --violet:#6C4FF6;
+    --violet-soft:#EDE9FE;
+    --magenta:#E23FA0;
+    --legacy:#B0864C;
+    --legacy-soft:#F4ECDD;
+    --text-soft:#6B7090;
+    --text-on-ink:#C7CAE8;
+    --line:#E4E3F0;
+  }
+  /* ---------- DARK THEME (toggled via [data-theme="dark"] on <html>) ----------
+     .hero and .stats-section stay a fixed dark navy in both themes (already
+     pinned to literal hex above), same pattern the portfolio's .cover bands use. */
+  :root[data-theme="dark"]{
+    --ink:#EDEFF7;
+    --ink-2:#141936;
+    --paper:#0B0E23;
+    --paper-2:#141936;
+    --violet-soft:#241F52;
+    --legacy-soft:#332813;
+    --text-soft:#9BA0C0;
+    --line:#262C48;
+  }
+  :root[data-theme="dark"] body{ transition:background-color .25s ease, color .25s ease; }
+  :root[data-theme="dark"] .tldr, :root[data-theme="dark"] .cause-card, :root[data-theme="dark"] .panel,
+  :root[data-theme="dark"] .approach-item{ transition:background-color .25s ease, border-color .25s ease; }
+
+  
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;transition:background-color .25s ease,color .25s ease;}
+  h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;margin:0;line-height:1.2;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  .hero{background:radial-gradient(120% 140% at 15% 0%,#1B1440 0%,#0B0E23 55%,#08091C 100%);color:#fff;padding:88px 0 64px;position:relative;overflow:hidden;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-on-ink);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:6px 12px;border-radius:999px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--magenta);}
+  .hero h1{font-size:44px;font-weight:700;max-width:780px;margin:22px 0 18px;}
+  .hero h1 span{color:var(--text-on-ink);font-weight:500;}
+  .hero p.dek{font-size:18px;max-width:640px;color:var(--text-on-ink);margin:0;}
+  .hero-meta{display:flex;gap:28px;margin-top:32px;flex-wrap:wrap;}
+  .hero-meta div{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-on-ink);}
+  .hero-meta b{display:block;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;}
+  .tldr{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:28px;margin:-36px 0 0;position:relative;z-index:2;box-shadow:0 20px 40px -28px rgba(11,14,35,.35);}
+  .tldr-head{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .tldr-head .bar{width:22px;height:3px;background:var(--violet);border-radius:2px;}
+  .tldr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .tldr-item .k{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+  .tldr-item .v b{font-family:'Space Grotesk',sans-serif;font-size:17px;}
+  .tldr-item .v span{color:var(--text-soft);font-size:14px;}
+  section{padding:56px 0 8px;}
+  .section-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin-bottom:10px;font-weight:600;}
+  .section-title{font-size:28px;font-weight:700;}
+  .chapter-line{font-size:17px;color:var(--text-soft);margin:10px 0 24px;max-width:720px;}
+  .eps{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);}
+  .ep{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .ep-id{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--violet);font-size:14px;padding-top:3px;}
+  .ep h4{font-size:18px;font-weight:600;}
+  .ep p{margin:6px 0 0;color:var(--text-soft);font-size:15px;max-width:760px;}
+  .ep-link{display:inline-block;margin-top:8px;font-size:13.5px;font-weight:600;color:var(--violet);text-decoration:none;}
+  .ep-link:hover{text-decoration:underline;}
+  .bookend .wrap>div{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:24px 28px;}
+  .bookend h3{font-size:22px;margin:4px 0 8px;}
+  .bookend p{margin:0;color:var(--text-soft);}
+  .cta{padding:56px 0 24px;}
+  .cta .box{background:#0B0E23;color:#fff;border-radius:18px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+  .cta h3{font-size:24px;} .cta p{margin:6px 0 0;color:var(--text-on-ink);}
+  .cta a{background:var(--violet);color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;}
+  footer{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px;}
+  footer p{color:var(--text-soft);font-size:13px;text-align:center;margin:0;}
+  @media (max-width:820px){.hero h1{font-size:32px;}.tldr-grid{grid-template-columns:1fr;}.ep{grid-template-columns:48px 1fr;gap:10px;}}
+</style>
+<link rel="stylesheet" href="nav.css?v=2">
+<script src="nav.js?v=2" defer></script>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6GDXJ82PP9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6GDXJ82PP9');
+</script>
+</head>
+<body>
+  <div class="hero"><div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>LinkedIn Series · Season 1</span>
+    <h1>Experience by Design<br><span>30 episodes on enterprise UX.</span></h1>
+    <p class="dek">What I learned designing for complex enterprise products: clarity, governance, design systems at scale, and what AI changes. One idea per episode, written to be read in a minute.</p>
+    <div class="hero-meta"><div><b>30</b>Episodes</div><div><b>6</b>Chapters</div><div><b>Jul–Nov 2026</b>Published on LinkedIn</div></div>
+  </div></div>
+
+  <div class="wrap"><div class="tldr">
+    <div class="tldr-head"><span class="bar"></span>Start here · 90 seconds</div>
+    <div class="tldr-grid"><div class="tldr-item"><div class="k">E12 · Ch. 3</div><div class="v"><b>Governance Is More Valuable Than Components</b><br><span>A design system scales through components. It stays coherent through decisions.</span></div></div><div class="tldr-item"><div class="k">E26 · Ch. 6</div><div class="v"><b>What Governance Cost Us</b><br><span>Hold firm on what matters to many. Let the rest move.</span></div></div><div class="tldr-item"><div class="k">E29 · Ch. 6</div><div class="v"><b>Most Design Debt Starts Outside Figma</b><br><span>Every “later” needs an owner and a date.</span></div></div></div>
+  </div></div>
+
+  <section class="bookend"><div class="wrap"><div>
+    <div class="section-tag">Prelude</div><h3>What made me start writing this series?</h3><p>Here&#x27;s to learning, sharing, and designing experiences with intention.</p>
+  </div></div></section>
+
+  <section class="chapter" id="ch1"><div class="wrap"><div class="section-tag">Chapter 1 · Episodes 01–04</div><h2 class="section-title">Changing the Mindset</h2><p class="chapter-line">Clarity comes before design, and reality is the final review.</p><ol class="eps"><li class="ep"><span class="ep-id">E01</span><div class="ep-body"><h4>What AI Taught Me About Design Systems</h4><p>If your team&#x27;s knowledge is well-documented but still hard to find, the gap usually isn&#x27;t the documentation. It&#x27;s the distance between how people ask and how the system expects to be asked.</p></div></li><li class="ep"><span class="ep-id">E02</span><div class="ep-body"><h4>Enterprise UX Isn&#x27;t Bigger UX</h4><p>Every step should earn its place.</p></div></li><li class="ep"><span class="ep-id">E03</span><div class="ep-body"><h4>The Best UX Decisions Rarely Start in Figma</h4><p>Good design didn&#x27;t create clarity. Clarity made good design possible.</p></div></li><li class="ep"><span class="ep-id">E04</span><div class="ep-body"><h4>Reality Is the Final Design Review</h4><p>The final design review doesn&#x27;t happen in a meeting. It happens in the real world.</p></div></li></ol></div></section><section class="chapter" id="ch2"><div class="wrap"><div class="section-tag">Chapter 2 · Episodes 05–08</div><h2 class="section-title">Leading Change</h2><p class="chapter-line">Simplicity and good ideas depend on what gets prioritized.</p><ol class="eps"><li class="ep"><span class="ep-id">E05</span><div class="ep-body"><h4>The Hardest Thing to Simplify Isn&#x27;t the Interface</h4><p>Transformation sometimes begins long before a user clicks anything. It begins with what they don&#x27;t have to look for.</p></div></li><li class="ep"><span class="ep-id">E06</span><div class="ep-body"><h4>Accessibility Isn&#x27;t a Checklist. It&#x27;s a Design Decision.</h4><p>We weren&#x27;t chasing requirements. We were building capability.</p></div></li><li class="ep"><span class="ep-id">E07</span><div class="ep-body"><h4>More Data Doesn&#x27;t Always Mean More Visibility</h4><p>Don&#x27;t optimize for how much data the system can show. Optimize for how people actually find what they need.</p></div></li><li class="ep"><span class="ep-id">E08</span><div class="ep-body"><h4>Some UX Problems Aren&#x27;t Design Problems. They&#x27;re Prioritization Problems.</h4><p>Design can shape a good idea. Whether it ships is usually someone else&#x27;s decision.</p></div></li></ol></div></section><section class="chapter" id="ch3"><div class="wrap"><div class="section-tag">Chapter 3 · Episodes 09–12</div><h2 class="section-title">Building Systems</h2><p class="chapter-line">A design system scales through components and stays coherent through decisions.</p><ol class="eps"><li class="ep"><span class="ep-id">E09</span><div class="ep-body"><h4>The Problem That Led to Floret</h4><p>Floret didn&#x27;t start with a component library. It started with someone deciding fragmentation was worth fixing.</p></div></li><li class="ep"><span class="ep-id">E10</span><div class="ep-body"><h4>How a Design System Can Fail One Deadline at a Time</h4><p>Good governance doesn&#x27;t wait for a complaint. It notices the drift first.</p></div></li><li class="ep"><span class="ep-id">E11</span><div class="ep-body"><h4>Design Debt Is Just as Expensive as Technical Debt</h4><p>The fix wasn&#x27;t another component. It was consolidating what we already had, then documenting how it should be used.</p></div></li><li class="ep"><span class="ep-id">E12</span><div class="ep-body"><h4>Governance Is More Valuable Than Components</h4><p>A design system scales through components. It stays coherent through decisions.</p></div></li></ol></div></section><section class="chapter" id="ch4"><div class="wrap"><div class="section-tag">Chapter 4 · Episodes 13–16</div><h2 class="section-title">Designing at Scale</h2><p class="chapter-line">Consistency means knowing when to follow a rule and when to adapt it.</p><ol class="eps"><li class="ep"><span class="ep-id">E13</span><div class="ep-body"><h4>Sometimes Consistency Is the Wrong Answer</h4><p>Designing at scale isn&#x27;t about making everything the same. It&#x27;s about knowing which sameness actually serves people.</p></div></li><li class="ep"><span class="ep-id">E14</span><div class="ep-body"><h4>We Designed for the Requirement. Customers Used Something Else.</h4><p>A responsive interface can fit the screen and still miss the way people actually work.</p></div></li><li class="ep"><span class="ep-id">E15</span><div class="ep-body"><h4>Enterprise Consistency Doesn&#x27;t Kill Innovation</h4><p>Consistency isn&#x27;t the opposite of personalization. It&#x27;s what makes personalization safe to offer at scale.</p></div></li><li class="ep"><span class="ep-id">E16</span><div class="ep-body"><h4>Good Design Operations Are Almost Invisible</h4><p>Good DesignOps doesn&#x27;t create dependency. It creates independence.</p></div></li></ol></div></section><section class="chapter" id="ch5"><div class="wrap"><div class="section-tag">Chapter 5 · Episodes 17–20</div><h2 class="section-title">AI &amp; The Future</h2><p class="chapter-line">AI amplifies whatever clarity, or confusion, you give it.</p><ol class="eps"><li class="ep"><span class="ep-id">E17</span><div class="ep-body"><h4>AI Doesn&#x27;t Fix Inconsistency. It Makes It Easier to Reproduce.</h4><p>AI doesn&#x27;t fix inconsistency. It makes it easier to reproduce, faster than anyone can catch it.</p></div></li><li class="ep"><span class="ep-id">E18</span><div class="ep-body"><h4>AI Didn&#x27;t Remove the Need for Structure. It Exposed It.</h4><p>The advantage isn&#x27;t having the best AI tools. It&#x27;s having the clearest intent behind them.</p></div></li><li class="ep"><span class="ep-id">E19</span><div class="ep-body"><h4>AI Generated the Right Screen for the Wrong Reality</h4><p>AI can optimize the screen you describe. It can&#x27;t know the reality you forgot to mention.</p></div></li><li class="ep"><span class="ep-id">E20</span><div class="ep-body"><h4>The Future of UX Is Designing Decisions</h4><p>The future of UX isn&#x27;t choosing the best AI output. It&#x27;s knowing when you don&#x27;t need one.</p></div></li></ol></div></section><section class="chapter" id="ch6"><div class="wrap"><div class="section-tag">Chapter 6 · Episodes 21–30</div><h2 class="section-title">Reflection</h2><p class="chapter-line">Users experience the whole system. Design debt accumulates when known improvements keep getting deferred.</p><ol class="eps"><li class="ep"><span class="ep-id">E21</span><div class="ep-body"><h4>What Enterprise UX Changed My Mind About</h4><p>Understand the system first. Then decide which screens deserve the most care.</p></div></li><li class="ep"><span class="ep-id">E22</span><div class="ep-body"><h4>Nobody Knew Why the Setting Existed</h4><p>Better shipped beats best stalled.</p></div></li><li class="ep"><span class="ep-id">E23</span><div class="ep-body"><h4>Same Button, Different Authority</h4><p>The step can adapt. The meaning of the action shouldn&#x27;t.</p></div></li><li class="ep"><span class="ep-id">E24</span><div class="ep-body"><h4>We Standardized the Signal, Not the Status</h4><p>Let the words stay accurate. Let the color stay consistent.</p></div></li><li class="ep"><span class="ep-id">E25</span><div class="ep-body"><h4>We Had the Same Feature in Five Products</h4><p>Converge the experience before you converge the features.</p></div></li><li class="ep"><span class="ep-id">E26</span><div class="ep-body"><h4>What Governance Cost Us</h4><p>Hold firm on what matters to many. Let the rest move.</p></div></li><li class="ep"><span class="ep-id">E27</span><div class="ep-body"><h4>The Moment UX Became a Team Sport</h4><p>A simpler design lasts when every team has helped shape it.</p></div></li><li class="ep"><span class="ep-id">E28</span><div class="ep-body"><h4>What I Would Do Differently Now</h4><p>Design for the person&#x27;s whole day, not just your part of it.</p></div></li><li class="ep"><span class="ep-id">E29</span><div class="ep-body"><h4>Most Design Debt Starts Outside Figma</h4><p>Every “later” needs an owner and a date.</p></div></li><li class="ep"><span class="ep-id">E30</span><div class="ep-body"><h4>What Experience by Design Means to Me Now</h4><p>Design for the people who live with it every day.</p></div></li></ol></div></section>
+
+  <section class="bookend"><div class="wrap"><div>
+    <div class="section-tag">Epilogue</div><h3>What 30 Episodes Taught Me About Enterprise Experience</h3><p>Better experiences start long before the screen.</p>
+  </div></div></section>
+
+  <div class="cta"><div class="wrap"><div class="box">
+    <div><h3>Read the full episodes on LinkedIn</h3><p>Each episode is a short post. Follow along or start a conversation.</p></div>
+    <a href="https://www.linkedin.com/in/jagadeesh-sj-2432903/recent-activity/all/" target="_blank" rel="noopener">View on LinkedIn ↗</a>
+  </div></div></div>
+
+  <footer><div class="wrap"><p>Experience by Design is written from general experience. Product names and internal details are intentionally omitted.</p></div></footer>
+</body>
+</html>
